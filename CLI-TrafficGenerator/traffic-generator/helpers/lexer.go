@@ -1,4 +1,4 @@
-package analizadores
+package helpers
 
 import (
 	"fmt"
@@ -7,15 +7,14 @@ import (
 )
 
 var (
-	tokens                           = []*Token{}
-	repetir, anular, ErrorLex bool   = false, false, false
-	estado                    int    = 0
-	lexemaact, lexemaerror    string = "", ""
+	tokens                                      = []*Token{}
+	repetir, anular, ErrorLex, Ejecutado bool   = false, false, false, false
+	estado                               int    = 0
+	lexemaact, lexemaerror               string = "", ""
 )
 
 // Lexico -> funcion para analizar cadena de entrada
-// como parametro recibe una cadena ya sea ingresa en consola
-// o el texto plano contenido en archivo leido
+// como parametro recibe una cadena
 func Lexico(entrada string) *SquidGameSet {
 	tokens = nil
 	ErrorLex = false

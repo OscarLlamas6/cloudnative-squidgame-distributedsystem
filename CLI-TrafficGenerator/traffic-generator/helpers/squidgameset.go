@@ -1,4 +1,4 @@
-package analizadores
+package helpers
 
 // SquidGameSet structure
 type SquidGameSet struct {

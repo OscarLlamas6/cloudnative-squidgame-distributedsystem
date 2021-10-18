@@ -1,4 +1,4 @@
-package analizadores
+package helpers
 
 import (
 	"fmt"
@@ -10,16 +10,26 @@ var (
 	SyntaxError                             bool = false
 	token                                   int  = -1
 	tokenAux                                *Token
-	gamename                                string = ""
+	gamename                                string = "1 | Red Light, Green Light"
 	players, rungames, concurrence, timeout int64  = 20, 50, 5, 180
 )
 
 func resetearValores() {
-	gamename = ""
+	gamename = "1 | Red Light, Green Light"
 	players = 20
 	rungames = 50
 	concurrence = 50
 	timeout = 180
+}
+
+func NoBlankStrings(list []string) bool {
+	for _, s := range list {
+		blank := strings.TrimSpace(s) == ""
+		if blank {
+			return true
+		}
+	}
+	return false
 }
 
 //Sintactico fuction
@@ -35,8 +45,13 @@ func Sintactico() *SquidGameSet {
 	}
 
 	if !SyntaxError && token >= (len(tokens)-1) {
-		fmt.Println(string(getColor("green")), "EL ANALISIS FUE CORRECTO, LISTO PARA INICIAR SQUID GAME! :D")
-
+		split := strings.Split(gamename, "|")
+		if (len(split) >= 2) && (len(split)%2 == 0) && (!NoBlankStrings(split)) {
+			Ejecutado = true
+		} else {
+			fmt.Println(string(getColor("red")), "El parámetro --gamename debe cumplir con el formato GAME_NUMBER|GAME_NAME")
+			fmt.Println(string(getColor("yellow")), "Ej: --gamename \"1 | Game1 | 2 | Game2\"")
+		}
 	} else {
 		fmt.Println(string(getColor("cyan")), "Error sintáctico encontrado")
 	}
@@ -56,7 +71,7 @@ func inicio() {
 		instrucciones()
 	} else {
 		fmt.Print(string(getColor("red")), "Una instrucción debe iniciar con la palabra reservada ")
-		fmt.Print(string(getColor("blue")), "rungame")
+		fmt.Print(string(getColor("green")), "rungame")
 		fmt.Println(string(getColor("red")), ".")
 		fmt.Println(string(getColor("yellow")), "Ej: rungame --gamename \"1 | Game1\" [OPTIONS]")
 		SyntaxError = true

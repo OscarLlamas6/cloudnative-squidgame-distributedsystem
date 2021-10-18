@@ -1,4 +1,4 @@
-package analizadores
+package helpers
 
 // Token structure
 type Token struct {

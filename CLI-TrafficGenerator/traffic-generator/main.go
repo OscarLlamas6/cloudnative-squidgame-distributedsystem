@@ -7,11 +7,12 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
-	"traffic-generator/analizadores"
+	"time"
+	"traffic-generator/helpers"
 )
 
 var (
-	SquidGameSet *analizadores.SquidGameSet
+	SquidGameSet *helpers.SquidGameSet
 )
 
 //LimpiarPantalla fuction
@@ -26,7 +27,7 @@ func LimpiarPantalla() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	}
-	fmt.Println(string(getColor("purple")), "------------ SQUID GAME DISTRIBUTED SYSTEM ------------")
+	fmt.Println(string(getColor("purple")), "---------------------- SQUID GAME DISTRIBUTED SYSTEM ----------------------")
 	fmt.Println()
 }
 
@@ -46,6 +47,39 @@ func getColor(colorName string) string {
 	return colors[colorName]
 }
 
+func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
+
+	Games := []*helpers.SingleGame{}
+
+	split := strings.Split(squidgameset.GetGameName(), "|")
+
+	count := len(split) / 2
+
+	for i := 0; i < count; i++ {
+
+		newGame := helpers.NewSingleGame(
+			strings.TrimSpace(split[i]),
+			strings.TrimSpace(split[i+1]),
+			squidgameset.GetPlayers(),
+			squidgameset.GetRungames(),
+			squidgameset.GetConcurrence(),
+			squidgameset.GetTimeout())
+
+		Games = append(Games, newGame)
+
+	}
+
+	//imprimiendo para verificar estructura
+	// jsonF, _ := json.Marshal(Games)
+	// fmt.Println(string(jsonF))
+
+	return Games
+}
+
+func RunGame(games []*helpers.SingleGame) int {
+	return 1
+}
+
 func main() {
 	continuar := true
 	LimpiarPantalla()
@@ -54,6 +88,7 @@ func main() {
 		fmt.Print(string(getColor("green")), "USAC ")
 		fmt.Print(string(getColor("yellow")), ">> ")
 		input, _ := reader.ReadString('\n')
+		helpers.Ejecutado = false
 
 		if runtime.GOOS == "windows" {
 			input = strings.TrimRight(input, "\r\n")
@@ -67,12 +102,26 @@ func main() {
 			LimpiarPantalla()
 		} else {
 			//ejecutando analizador
-			SquidGameSet = analizadores.Lexico(input)
+			SquidGameSet = helpers.Lexico(input)
 		}
 
-		/* if !analizadores.ErrorLex && !analizadores.SyntaxError {
-			fmt.Println(string(getColor("green")), "EL ANALISIS FUE CORRECTO, LISTO PARA INICIAR SQUID GAME! :D")
-		} */
+		if !helpers.ErrorLex && !helpers.SyntaxError && helpers.Ejecutado {
+			fmt.Println("")
+			fmt.Print(string(getColor("cyan")), "Cargando configuración:")
+
+			for i := 0; i < 53; i++ {
+				fmt.Print(string(getColor("yellow")), "#")
+				time.Sleep(25 * time.Millisecond)
+			}
+			fmt.Println("")
+			fmt.Print(string(getColor("cyan")), "Configuración cargada correctamente.")
+			fmt.Println(string(getColor("yellow")), "Presione ENTER para iniciar el juego. :D")
+			var wait string
+			fmt.Scanln(&wait)
+			fmt.Println(string(getColor("red")), "Ejecutando Squid Games... ")
+			RunGame(GetGamesConfig(SquidGameSet))
+			fmt.Println(string(getColor("green")), "Juego finalizado.")
+		}
 
 	}
 
