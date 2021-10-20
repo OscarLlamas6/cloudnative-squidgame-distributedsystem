@@ -13,6 +13,7 @@ import (
 
 var (
 	SquidGameSet *helpers.SquidGameSet
+	Host         string
 )
 
 //LimpiarPantalla fuction
@@ -50,34 +51,33 @@ func getColor(colorName string) string {
 func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
 
 	Games := []*helpers.SingleGame{}
-
 	split := strings.Split(squidgameset.GetGameName(), "|")
-
 	count := len(split) / 2
+	x := 0
 
 	for i := 0; i < count; i++ {
 
 		newGame := helpers.NewSingleGame(
-			strings.TrimSpace(split[i]),
-			strings.TrimSpace(split[i+1]),
+			strings.TrimSpace(split[x]),
+			strings.TrimSpace(split[x+1]),
 			squidgameset.GetPlayers(),
 			squidgameset.GetRungames(),
 			squidgameset.GetConcurrence(),
 			squidgameset.GetTimeout())
 
 		Games = append(Games, newGame)
-
+		x = x + 2
 	}
 
 	//imprimiendo para verificar estructura
-	// jsonF, _ := json.Marshal(Games)
-	// fmt.Println(string(jsonF))
+	//jsonF, _ := json.Marshal(Games)
+	//fmt.Println(string(jsonF))
 
 	return Games
 }
 
-func RunGame(games []*helpers.SingleGame) int {
-	return 1
+func RunGame(games []*helpers.SingleGame) {
+
 }
 
 func main() {
@@ -107,12 +107,19 @@ func main() {
 
 		if !helpers.ErrorLex && !helpers.SyntaxError && helpers.Ejecutado {
 			fmt.Println("")
+			fmt.Println(string(getColor("cyan")), "Ingrese el host al cual enviar el tráfico")
+			fmt.Print(string(getColor("blue")), "HOST ")
+			fmt.Print(string(getColor("yellow")), ">> ")
+			fmt.Scanln(&Host)
+			fmt.Print(string(getColor("cyan")), "Seteando host -> ")
+			fmt.Println(string(getColor("red")), Host)
 			fmt.Print(string(getColor("cyan")), "Cargando configuración:")
 
 			for i := 0; i < 53; i++ {
 				fmt.Print(string(getColor("yellow")), "#")
 				time.Sleep(25 * time.Millisecond)
 			}
+
 			fmt.Println("")
 			fmt.Print(string(getColor("cyan")), "Configuración cargada correctamente.")
 			fmt.Println(string(getColor("yellow")), "Presione ENTER para iniciar el juego. :D")

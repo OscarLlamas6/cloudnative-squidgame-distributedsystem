@@ -18,7 +18,7 @@ func resetearValores() {
 	gamename = "1 | Red Light, Green Light"
 	players = 20
 	rungames = 50
-	concurrence = 50
+	concurrence = 5
 	timeout = 180
 }
 
