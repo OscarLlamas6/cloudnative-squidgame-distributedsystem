@@ -121,7 +121,7 @@ func sendRequest(numero int, game *helpers.SingleGame) {
 
 	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
 
-		fmt.Print(string(getColor("yellow")), "Rungame # ", numero+1)
+		fmt.Print(string(getColor("yellow")), "Rungame #", numero+1)
 		fmt.Print(string(getColor("purple")), " Status:")
 		fmt.Print(string(getColor("blue")), resp.StatusCode)
 		fmt.Print(string(getColor("purple")), " Response:")
@@ -208,8 +208,6 @@ func RunGame(games []*helpers.SingleGame) {
 	fmt.Print(string(getColor("green")), "Juegos pendientes (Timeout):")
 	fmt.Println(string(getColor("cyan")), RungamesValue-Send)
 }
-
-
 
 func main() {
 	continuar := true
