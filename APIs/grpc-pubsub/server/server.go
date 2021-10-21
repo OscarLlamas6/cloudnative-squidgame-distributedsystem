@@ -19,15 +19,20 @@ type server struct {
 
 func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidgame.PlayResponse, error) {
 	fmt.Println(">> SERVER: Ejecutando juego :o")
-	gamenumber := req.GetGame().GetGamenumber()
+	// gamenumber := req.GetGame().GetGamenumber()
 	gamename := req.GetGame().GetGamename()
 	// players := req.GetGame().GetPlayers()
 	// rungames := req.GetGame().GetRungames()
 	// concurrence := req.GetGame().GetConcurrence()
 	// timeout := req.GetGame().GetTimeout()
 
+	/*IMPORTANTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+	GENERAR GANADOR Y ENVIAR A COLA
+	*/
+
 	fmt.Println(">> SERVER: Juego finalizado!")
-	result := "Se recibio ---> Juego: " + gamename + ", Numero: " + gamenumber
+
+	result := "PubSub gRPC Server >> El ganador del juego " + gamename + " es: X"
 	res := &squidgame.PlayResponse{
 		Message: result,
 	}

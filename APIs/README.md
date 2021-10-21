@@ -11,8 +11,7 @@
 > go get -u google.golang.org/grpc
 > go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
 > go get google.golang.org/protobuf/cmd/protoc-gen-go
-> go get github.com/OscarLlamas6/grpc-helpers/protos
-> hello@37a57b2f184cb3b1e3787ce5ba2c728296cba7ad
+> go get github.com/OscarLlamas6/grpc-helpers/protos/squidgame@5da1c83208f57d46108aba7997cf95052c64bb85
 > go get github.com/joho/godotenv/cmd/godotenv
 
 #Compilar archivo .proto

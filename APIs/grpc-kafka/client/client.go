@@ -24,6 +24,11 @@ type SingleGame struct {
 	Timeout     int64  `json:"timeout"`
 }
 
+type mensaje struct {
+	Mensaje string `json:"Mensaje"`
+	Status  int    `json:"Status"`
+}
+
 func http_server(w http.ResponseWriter, r *http.Request) {
 	instance_name := os.Getenv("KAFKA_CLIENT_NAME")
 	fmt.Println(">> CLIENT: Manejando peticion HTTP CLIENTE: ", instance_name)
@@ -36,11 +41,17 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 	// Comprobamos el tipo de peticion HTTP
 	switch r.Method {
 
+	case "GET":
+		fmt.Fprintf(w, "¡Bienvenid@ a KAFKA SQUID GAME gRPC Client!\n")
 	case "POST":
-		fmt.Println(">> CLIENT: Iniciando envio de mensajes")
+
+		var newMensaje mensaje
+		errorHttp := false
+
 		// Si existe un error con la forma enviada entonces no seguir
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			errorHttp = true
 			return
 		}
 
@@ -48,6 +59,7 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 		err := json.NewDecoder(r.Body).Decode(&g)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			errorHttp = true
 			return
 		}
 
@@ -58,11 +70,26 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 		conn, err := grpc.Dial(grpc_server_host, grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("could not connect: %v", err)
+			errorHttp = true
 		}
 		defer conn.Close()
 		c := squidgame.NewSquidGameServiceClient(conn)
-		sendGame(c, g.Gamenumber, g.Gamename, g.Players, g.Rungames, g.Concurrence, g.Timeout)
-		fmt.Fprintf(w, "¡Juego enviado al SQUID GAME gRPC Server!\n")
+		respuesta := sendGame(c, g.Gamenumber, g.Gamename, g.Players, g.Rungames, g.Concurrence, g.Timeout)
+
+		if errorHttp {
+			newMensaje.Mensaje = "¡Error al interacturar con gRPC Server!"
+			newMensaje.Status = 400
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(newMensaje)
+		} else {
+			newMensaje.Mensaje = respuesta
+			newMensaje.Status = 200
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(newMensaje)
+		}
 
 	default:
 		fmt.Fprintf(w, "Metodo %s no soportado \n", r.Method)
@@ -88,7 +115,7 @@ func main() {
 
 }
 
-func sendGame(c squidgame.SquidGameServiceClient, number string, name string, players int64, rungames int64, concurrence int64, timeout int64) {
+func sendGame(c squidgame.SquidGameServiceClient, number string, name string, players int64, rungames int64, concurrence int64, timeout int64) string {
 	fmt.Println(">> CLIENT: Enviando Squid Game a gRPC Server ")
 	req := &squidgame.PlayRequest{
 		Game: &squidgame.Game{
@@ -108,4 +135,6 @@ func sendGame(c squidgame.SquidGameServiceClient, number string, name string, pl
 	}
 
 	fmt.Printf(">> CLIENT: %v\n", res.Message)
+
+	return res.Message
 }
