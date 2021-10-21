@@ -29,6 +29,8 @@ func main() {
 	}
 	defer client.Close()
 
+	fmt.Println("Esperando mensajes...")
+
 	sub := client.Subscription(subID)
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -40,8 +42,8 @@ func main() {
 		for msg := range cm {
 
 			/*GUARDAR INFO EN REDIS*/
-
-			fmt.Printf("Got message :%q\n", string(msg.Data))
+			fmt.Println("Mensaje recibido :D")
+			fmt.Printf("Data: %q\n", string(msg.Data))
 			fmt.Println("Attributes:")
 			for key, value := range msg.Attributes {
 				fmt.Printf("%s = %s\n", key, value)

@@ -11,6 +11,7 @@ import (
 	"time"
 	"unicode"
 
+	"cloud.google.com/go/pubsub"
 	"github.com/joho/godotenv"
 
 	"github.com/OscarLlamas6/grpc-helpers/protos/squidgame"
@@ -117,6 +118,39 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	fmt.Println(">> SERVER: Juego finalizado!")
 
 	/*ENVIAR A PUBSUB*/
+
+	credentials_path := os.Getenv("PUBSUB_KEY_PATH")
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", credentials_path)
+	projectID := os.Getenv("PUBSUB_PROJECT")
+	topicID := os.Getenv("GOLANG_TOPIC")
+
+	ctxPS := context.Background()
+	client, error2 := pubsub.NewClient(ctxPS, projectID)
+	if error2 != nil {
+		log.Fatal("Error creando cliente")
+	}
+	defer client.Close()
+
+	t := client.Topic(topicID)
+
+	mensajePS := "Resultados del juego: " + gamename + " :D"
+
+	resultPS := t.Publish(ctxPS, &pubsub.Message{
+		Data: []byte(mensajePS),
+		Attributes: map[string]string{
+			"gamenumber": gamenumber,
+			"gamename":   gamename,
+			"ganador":    strconv.Itoa(int(ganador)),
+		},
+	})
+
+	id, error3 := resultPS.Get(ctxPS)
+	if error3 != nil {
+		fmt.Printf("Error: %v", error3)
+	} else {
+		fmt.Printf(">> SERVER: Mensaje enviado con el id: %v", id)
+
+	}
 
 	result := "PubSub gRPC Server >> El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
 	res := &squidgame.PlayResponse{
