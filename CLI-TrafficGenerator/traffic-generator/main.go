@@ -209,6 +209,8 @@ func RunGame(games []*helpers.SingleGame) {
 	fmt.Println(string(getColor("cyan")), RungamesValue-Send)
 }
 
+
+
 func main() {
 	continuar := true
 	LimpiarPantalla()
