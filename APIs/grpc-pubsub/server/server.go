@@ -148,14 +148,15 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	if error3 != nil {
 		fmt.Printf("Error: %v", error3)
 	} else {
-		fmt.Printf(">> SERVER: Mensaje enviado con el id: %v", id)
+		fmt.Printf(">> SERVER: Mensaje enviado con el id: %v\n", id)
 
 	}
 
-	result := "PubSub gRPC Server >> El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
+	result := "El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
 	res := &squidgame.PlayResponse{
 		Message: result,
 	}
+	fmt.Println(">> SERVER: ", result)
 	return res, nil
 }
 

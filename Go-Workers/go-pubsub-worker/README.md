@@ -9,6 +9,8 @@
 #Golang dependencies
 > go get -u cloud.google.com/go/pubsub
 > go get github.com/joho/godotenv
+> go get github.com/go-redis/redis/v8
+> go get github.com/google/uuid
 ```
 
 ## Variables de entorno necesarias
@@ -18,13 +20,15 @@
 ```bash
 
 
-# Variables de entorno para PubSub
+# Setear variables
 TOPIC_NAME=projects/<projet-id>/topics/<topic-name>
 PUBSUB_KEY_PATH=<relative path to private key json file>
 SUB_NAME=projects/<project-id>/subscriptions/<sub-name>
 PUBSUB_PROJECT=<project-id>
 GOLANG_TOPIC=<topic-name>
 GOLANG_SUB=<sub-name>
+REDIS_HOST=<redis-service-ip>
+REDIS_PORT=<redis-service-port>
 
 # En la raiz del proyecto ubicar el json de la private key 
 

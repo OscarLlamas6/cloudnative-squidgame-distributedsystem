@@ -118,10 +118,11 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 
 	/*ENVIAR A RABBIT*/
 
-	result := "RABBIT gRPC Server >> El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
+	result := "El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
 	res := &squidgame.PlayResponse{
 		Message: result,
 	}
+	fmt.Println(">> SERVER: ", result)
 	return res, nil
 }
 
