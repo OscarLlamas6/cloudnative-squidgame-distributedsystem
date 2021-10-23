@@ -14,6 +14,10 @@
 > go get github.com/OscarLlamas6/grpc-helpers/protos/squidgame@5da1c83208f57d46108aba7997cf95052c64bb85
 > go get github.com/joho/godotenv/cmd/godotenv
 
+#PubSub
+> go get go get -u cloud.google.com/go/pubsub
+#RabbitMQ
+> go get github.com/streadway/amqp
 
 #Compilar archivo .proto
 > protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative <.proto filename path>

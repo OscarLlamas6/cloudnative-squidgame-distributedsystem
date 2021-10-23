@@ -1,4 +1,4 @@
-# PubSub Worker: USAC Squid Games - Distributed Cloud Native System
+# Go PubSub Worker: USAC Squid Games - Distributed Cloud Native System
 
 - Suscriptor de Google PubSub implementado en Golang
 
@@ -34,7 +34,7 @@ REDIS_PORT=<redis-service-port>
 
 ```
 
-### Ejecutar cliente y servidor
+### Ejecutar suscriptor
 
 ```bash
 

@@ -49,9 +49,16 @@ func main() {
 			cadena := msg.Data
 			atributos := msg.Attributes
 			m := make(map[string]string)
-			m["mensajePubSub"] = string(cadena)
+			m["mensaje"] = string(cadena)
 			for k, v := range atributos {
 				m[k] = v
+			}
+
+			fmt.Println("PubSub >> Mensaje recibido :D")
+			fmt.Printf("Data: %q\n", string(cadena))
+			fmt.Println("Attributes:")
+			for key, value := range atributos {
+				fmt.Printf("%s = %s\n", key, value)
 			}
 
 			data, err := encoder.Marshal(m)
@@ -76,14 +83,10 @@ func main() {
 			err = cliente.Set(ctxRedis, randomKey, data, 0).Err()
 			if err != nil {
 				panic(err)
+			} else {
+				fmt.Println("PubSub >> Mensaje guardado en Redis :)")
 			}
 
-			fmt.Println("Mensaje recibido :D")
-			fmt.Printf("Data: %q\n", string(cadena))
-			fmt.Println("Attributes:")
-			for key, value := range atributos {
-				fmt.Printf("%s = %s\n", key, value)
-			}
 			msg.Ack()
 		}
 	}()

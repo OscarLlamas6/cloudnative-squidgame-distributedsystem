@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	encoder "encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
@@ -12,6 +13,7 @@ import (
 	"unicode"
 
 	"github.com/joho/godotenv"
+	"github.com/streadway/amqp"
 
 	"github.com/OscarLlamas6/grpc-helpers/protos/squidgame"
 	"google.golang.org/grpc"
@@ -19,6 +21,13 @@ import (
 
 type server struct {
 	squidgame.UnimplementedSquidGameServiceServer
+}
+
+type Atributos struct {
+	Mensaje    string `json:"mensaje"`
+	Gamenumber string `json:"gamenumber"`
+	Gamename   string `json:"gamename"`
+	Ganador    string `json:"ganador"`
 }
 
 /*ALGORITMOS PARA ELEGIR UN GANADOR*/
@@ -117,6 +126,74 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	fmt.Println(">> SERVER: Juego finalizado!")
 
 	/*ENVIAR A RABBIT*/
+
+	RABBITMQ_HOST := os.Getenv("RABBITMQ_HOST")
+	RABBITMQ_PORT := os.Getenv("RABBITMQ_PORT")
+	RABBITMQ_USER := os.Getenv("RABBITMQ_USER")
+	RABBITMQ_PASS := os.Getenv("RABBITMQ_PASS")
+	RABBITMQ_QUEUE := os.Getenv("RABBITMQ_QUEUE")
+	RABBITMQ_URL := fmt.Sprintf("amqp://%v:%v@%v:%v/", RABBITMQ_USER, RABBITMQ_PASS, RABBITMQ_HOST, RABBITMQ_PORT)
+
+	conn, errmq := amqp.Dial(RABBITMQ_URL)
+	if errmq != nil {
+		fmt.Printf("Error: %v\n", errmq)
+	}
+
+	defer conn.Close()
+
+	ch, errmq := conn.Channel()
+	if errmq != nil {
+		fmt.Printf("Error: %v\n", errmq)
+	}
+	defer ch.Close()
+
+	// We create a Queue to send the message to.
+	q, errmq := ch.QueueDeclare(
+		RABBITMQ_QUEUE, // name
+		false,          // durable
+		false,          // delete when unused
+		false,          // exclusive
+		false,          // no-wait
+		nil,            // arguments
+	)
+
+	if errmq != nil {
+		fmt.Printf("Error: %v\n", errmq)
+	}
+
+	mensajeRabbit := "Resultados del juego: " + gamename + " :D"
+
+	// We set the payload for the message
+	body := Atributos{
+		Mensaje:    mensajeRabbit,
+		Gamenumber: "11",
+		Gamename:   "Game1121",
+		Ganador:    "612121",
+	}
+
+	jsonObj, err := encoder.Marshal(body)
+	if err != nil {
+		fmt.Printf("Error: %v\n", errmq)
+	}
+
+	err = ch.Publish(
+		"",     // exchange
+		q.Name, // routing key
+		false,  // mandatory
+		false,  // immediate
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(jsonObj),
+		})
+
+	if err != nil {
+		fmt.Printf("Error: %v\n", errmq)
+	} else {
+		fmt.Println(">> SERVER: Mensaje enviado a RabbitMQ correctamente :D")
+
+	}
+
+	/*************************************************/
 
 	result := "El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
 	res := &squidgame.PlayResponse{
