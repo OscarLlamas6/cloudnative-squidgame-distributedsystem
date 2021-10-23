@@ -25,6 +25,7 @@ RABBITMQ_HOST=<rabbitmq-service-ip>
 RABBITMQ_PORT=<rabbitmq-service-port>
 RABBITMQ_USER=<rabbitmq-user>
 RABBITMQ_PASS=<rabbitmq-pass>
+RABBITMQ_QUEUE=<rabbitmq-queuename>
 REDIS_HOST=<redis-service-ip>
 REDIS_PORT=<redis-service-port>
 
