@@ -16,8 +16,13 @@
 
 #PubSub
 > go get go get -u cloud.google.com/go/pubsub
+
 #RabbitMQ
 > go get github.com/streadway/amqp
+
+#Kafka
+> go get github.com/google/uuid
+> go get github.com/segmentio/kafka-go
 
 #Compilar archivo .proto
 > protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative <.proto filename path>

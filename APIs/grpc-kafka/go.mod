@@ -6,7 +6,12 @@ require (
 	github.com/OscarLlamas6/grpc-helpers v0.0.0-20211019223221-37a57b2f184c // indirect
 	github.com/OscarLlamas6/grpc-helpers/protos/squidgame v0.0.0-20211019235327-5da1c83208f5 // indirect
 	github.com/golang/protobuf v1.5.0 // indirect
+	github.com/golang/snappy v0.0.1 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/klauspost/compress v1.9.8 // indirect
+	github.com/pierrec/lz4 v2.6.0+incompatible // indirect
+	github.com/segmentio/kafka-go v0.4.22 // indirect
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
 	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd // indirect
 	golang.org/x/text v0.3.0 // indirect

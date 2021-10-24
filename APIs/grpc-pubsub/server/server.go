@@ -170,7 +170,7 @@ func main() {
 	grpc_server_host := os.Getenv("PUBSUB_SERVER_HOST")
 	instance_name := os.Getenv("PUBSUB_SERVER_NAME")
 	fmt.Println(">> -------- ", instance_name, " --------")
-	fmt.Println(">> SERVER: Iniciando servidor http en ", grpc_server_host)
+	fmt.Println(">> SERVER: Iniciando servidor gRPC en ", grpc_server_host)
 	list, err := net.Listen("tcp", grpc_server_host)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)

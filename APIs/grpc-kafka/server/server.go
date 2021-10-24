@@ -8,17 +8,28 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 	"unicode"
 
-	"github.com/joho/godotenv"
+	encoder "encoding/json"
 
 	"github.com/OscarLlamas6/grpc-helpers/protos/squidgame"
+	"github.com/google/uuid"
+	"github.com/joho/godotenv"
+	"github.com/segmentio/kafka-go"
 	"google.golang.org/grpc"
 )
 
 type server struct {
 	squidgame.UnimplementedSquidGameServiceServer
+}
+
+type Atributos struct {
+	Mensaje    string `json:"mensaje"`
+	Gamenumber string `json:"gamenumber"`
+	Gamename   string `json:"gamename"`
+	Ganador    string `json:"ganador"`
 }
 
 /*ALGORITMOS PARA ELEGIR UN GANADOR*/
@@ -118,6 +129,52 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 
 	/*ENVIAR A KAFKA*/
 
+	ctxKafKa := context.Background()
+
+	kafkaHOST := os.Getenv("KAFKA_HOST")
+	kafkaPORT := os.Getenv("KAFKA_PORT")
+	kafkaTOPIC := os.Getenv("KAFKA_TOPIC")
+	brokerURL := fmt.Sprintf("%v:%v", kafkaHOST, kafkaPORT)
+
+	l := log.New(os.Stdout, ">> KAFKA: ", 0)
+	// intialize the writer with the broker addresses, and the topic
+	w := kafka.NewWriter(kafka.WriterConfig{
+		Brokers: []string{brokerURL},
+		Topic:   kafkaTOPIC,
+		// assign the logger to the writer
+		Logger: l,
+	})
+
+	mensajeKafka := "Resultados del juego: " + gamename + " :D"
+
+	// We set the payload for the message
+	body := Atributos{
+		Mensaje:    mensajeKafka,
+		Gamenumber: gamenumber,
+		Gamename:   gamename,
+		Ganador:    strconv.Itoa(int(ganador)),
+	}
+
+	jsonObj, err := encoder.Marshal(body)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+
+	randomKey := strings.Replace(uuid.New().String(), "-", "", -1)
+
+	err = w.WriteMessages(ctxKafKa, kafka.Message{
+		Key: []byte(randomKey),
+		// create an arbitrary message payload for the value
+		Value: []byte(string(jsonObj)),
+	})
+	if err != nil {
+		panic("Error al mandar mensaje a Kafka: " + err.Error())
+	} else {
+		fmt.Println(">> SERVER: Mensaje enviado a KAFKA correctamente :D")
+	}
+
+	/*********************/
+
 	result := "El ganador del juego " + gamename + " es: " + strconv.Itoa(int(ganador))
 	res := &squidgame.PlayResponse{
 		Message: result,
@@ -136,7 +193,7 @@ func main() {
 	grpc_server_host := os.Getenv("KAFKA_SERVER_HOST")
 	instance_name := os.Getenv("KAFKA_SERVER_NAME")
 	fmt.Println(">> -------- ", instance_name, " --------")
-	fmt.Println(">> SERVER: Iniciando servidor http en ", grpc_server_host)
+	fmt.Println(">> SERVER: Iniciando servidor gRPC en ", grpc_server_host)
 	list, err := net.Listen("tcp", grpc_server_host)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)

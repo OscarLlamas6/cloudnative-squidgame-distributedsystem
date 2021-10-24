@@ -166,9 +166,9 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	// We set the payload for the message
 	body := Atributos{
 		Mensaje:    mensajeRabbit,
-		Gamenumber: "11",
-		Gamename:   "Game1121",
-		Ganador:    "612121",
+		Gamenumber: gamenumber,
+		Gamename:   gamename,
+		Ganador:    strconv.Itoa(int(ganador)),
 	}
 
 	jsonObj, err := encoder.Marshal(body)
@@ -213,7 +213,7 @@ func main() {
 	grpc_server_host := os.Getenv("RABBIT_SERVER_HOST")
 	instance_name := os.Getenv("RABBIT_SERVER_NAME")
 	fmt.Println(">> -------- ", instance_name, " --------")
-	fmt.Println(">> SERVER: Iniciando servidor http en ", grpc_server_host)
+	fmt.Println(">> SERVER: Iniciando servidor gRPC en ", grpc_server_host)
 	list, err := net.Listen("tcp", grpc_server_host)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)

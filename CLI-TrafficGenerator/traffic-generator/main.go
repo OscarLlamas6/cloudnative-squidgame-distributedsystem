@@ -153,7 +153,7 @@ func RunGame(games []*helpers.SingleGame) {
 		var ch = make(chan int, ConcurrenceValue+1)
 		//Creamos el grupo de concurrencia
 		var wg sync.WaitGroup
-		//Seteamos la cantidad de peticiones concurrence, dadas por el parametro --concurrence
+		//Seteamos la cantidad de peticiones concurrentes, dadas por el parámetro --concurrence
 		wg.Add(int(ConcurrenceValue))
 		for i := 0; i < int(ConcurrenceValue); i++ {
 			go func() {
