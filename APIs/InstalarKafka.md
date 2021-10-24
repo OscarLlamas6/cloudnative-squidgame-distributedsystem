@@ -33,7 +33,7 @@ Link de descarga directa: https://archive.apache.org/dist/kafka/2.8.0/kafka_2.13
 </p>
 &nbsp;
 
-- Situar la raiz del disco local, renombrar la carpeta como "Kafka" y crear subcarpetas "kafka-logs" y "zookeeper-data" 
+- Situar carpeta en la raiz del disco local, renombrar la carpeta como "Kafka" y crear subcarpetas "kafka-logs" y "zookeeper-data" 
 
 &nbsp;
 <p align="center" >

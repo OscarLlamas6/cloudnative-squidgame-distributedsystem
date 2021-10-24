@@ -34,7 +34,7 @@ REDIS_PORT=<redis-service-port>
 
 ```bash
 
-#Para iniciar cliente
+#Para iniciar suscriptor
 > go run suscriber.go
 
 ```

@@ -13,7 +13,7 @@
 > docker-compose down
 
 #Acceder a mongo-cli
-> sudo docker exec -it <mongo_container_id> bash
+> sudo docker exec -it <mongo_container_id> mongo
 
 ```
 

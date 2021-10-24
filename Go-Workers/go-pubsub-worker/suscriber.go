@@ -7,11 +7,14 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -87,6 +90,52 @@ func main() {
 				fmt.Println("PubSub >> Mensaje guardado en Redis :)")
 			}
 
+			/*GUARDAR LOGS EN MONGO*/
+
+			mongoHOST := os.Getenv("MONGO_HOST")
+			mongoPORT := os.Getenv("MONGO_PORT")
+			mongoDB := os.Getenv("MONGO_DB")
+			mongoCOL := os.Getenv("MONGO_COL")
+			mongoURL := fmt.Sprintf("mongodb://%v:%v", mongoHOST, mongoPORT)
+
+			ctxMongo, cancel := context.WithTimeout(context.Background(), time.Second*10)
+			//defer cancel()
+
+			clientOptions := options.Client().ApplyURI(mongoURL).SetDirect(true)
+
+			c, err := mongo.NewClient(clientOptions)
+			if err != nil {
+				log.Fatalf("Error al crear cliente %v", err)
+			}
+			err = c.Connect(ctxMongo)
+			if err != nil {
+				log.Fatalf("Error al realizar conexion %v", err)
+			}
+
+			err = c.Ping(ctx, nil)
+			if err != nil {
+				log.Fatalf("Error al conectar %v", err)
+			}
+
+			ctxInsert := context.Background()
+			//defer c.Disconnect(ctxInsert)
+
+			m2 := make(map[string]string)
+			m2["service"] = "Google PubSub"
+			for k, v := range atributos {
+				m2[k] = v
+			}
+
+			todoCollection := c.Database(mongoDB).Collection(mongoCOL)
+			r, err := todoCollection.InsertOne(ctxInsert, m2)
+			if err != nil {
+				log.Fatalf("Error al guardar logs %v", err)
+			} else {
+				fmt.Println("PubSub >> Log guardado en Mongo con el id: ", r.InsertedID)
+			}
+
+			/**/
+			cancel()
 			msg.Ack()
 		}
 	}()
