@@ -11,6 +11,7 @@
 > go get github.com/joho/godotenv
 > go get github.com/go-redis/redis/v8
 > go get github.com/google/uuid
+> go get go.mongodb.org/mongo-driver/mongo
 ```
 
 ## Variables de entorno necesarias

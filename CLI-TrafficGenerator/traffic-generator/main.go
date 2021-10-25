@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	SquidGameSet          *helpers.SquidGameSet
-	Host                  string
-	TimeOutStatus         bool = false
-	TimeOutValue          int64
-	ConcurrenceValue      int64
-	RungamesValue         int64
-	PlayersValue          int64
-	Success, Failed, Send int64
+	SquidGameSet                 *helpers.SquidGameSet
+	Host                         string
+	TimeOutStatus                bool = false
+	TimeOutValue                 int64
+	ConcurrenceValue             int64
+	RungamesValue, TotalRungames int64
+	PlayersValue                 int64
+	Success, Failed, Send        int64
 )
 
 //LimpiarPantalla fuction
@@ -94,6 +94,8 @@ func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
 	//imprimiendo para verificar estructura
 	//jsonF, _ := json.Marshal(Games)
 	//fmt.Println(string(jsonF))
+
+	TotalRungames = RungamesValue * int64(len(Games))
 
 	return Games
 }
@@ -196,7 +198,7 @@ func RunGame(games []*helpers.SingleGame) {
 		}
 	}
 
-	if TimeOutStatus && (Send != RungamesValue) {
+	if TimeOutStatus && (Send != TotalRungames) {
 		fmt.Println("")
 		fmt.Println(string(getColor("red")), "El juego no ha podido finalizar correctamente porque el timeout expiró :(")
 	} else {
@@ -211,7 +213,7 @@ func RunGame(games []*helpers.SingleGame) {
 	fmt.Print(string(getColor("green")), "Juegos realizados:")
 	fmt.Println(string(getColor("cyan")), Send)
 	fmt.Print(string(getColor("green")), "Juegos pendientes (Timeout):")
-	fmt.Println(string(getColor("cyan")), RungamesValue-Send)
+	fmt.Println(string(getColor("cyan")), TotalRungames-Send)
 }
 
 func main() {

@@ -52,7 +52,7 @@ func main() {
 			cadena := msg.Data
 			atributos := msg.Attributes
 			m := make(map[string]string)
-			m["mensaje"] = string(cadena)
+			m["service"] = "Google PubSub"
 			for k, v := range atributos {
 				m[k] = v
 			}
@@ -112,7 +112,7 @@ func main() {
 				log.Fatalf("Error al realizar conexion %v", err)
 			}
 
-			err = c.Ping(ctx, nil)
+			err = c.Ping(ctxMongo, nil)
 			if err != nil {
 				log.Fatalf("Error al conectar %v", err)
 			}

@@ -11,6 +11,7 @@
 > go get github.com/joho/godotenv
 > go get github.com/go-redis/redis/v8
 > go get github.com/google/uuid
+> go get go.mongodb.org/mongo-driver/mongo
 ```
 
 ## Variables de entorno necesarias
@@ -28,7 +29,10 @@ RABBITMQ_PASS=<rabbitmq-pass>
 RABBITMQ_QUEUE=<rabbitmq-queuename>
 REDIS_HOST=<redis-service-ip>
 REDIS_PORT=<redis-service-port>
-
+MONGO_HOST=<mongo-service-ip>
+MONGO_PORT=<mongo-service-port>
+MONGO_DB=<mongo-db-name>
+MONGO_COL=<mongo-collection-name>
 
 ```
 

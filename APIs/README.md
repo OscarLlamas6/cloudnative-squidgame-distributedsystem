@@ -11,7 +11,7 @@
 > go get -u google.golang.org/grpc
 > go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
 > go get google.golang.org/protobuf/cmd/protoc-gen-go
-> go get github.com/OscarLlamas6/grpc-helpers/protos/squidgame@5da1c83208f57d46108aba7997cf95052c64bb85
+> go get -u github.com/OscarLlamas6/grpc-helpers/protos/squidgame@006352d75d8e1e7877b99cd456cb422f565ad504
 > go get github.com/joho/godotenv/cmd/godotenv
 
 #PubSub

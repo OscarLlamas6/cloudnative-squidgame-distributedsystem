@@ -22,6 +22,7 @@ type SingleGame struct {
 	Rungames    int64  `json:"rungames"`
 	Concurrence int64  `json:"concurrence"`
 	Timeout     int64  `json:"timeout"`
+	Request     int64  `json:"request"`
 }
 
 type mensaje struct {
@@ -74,7 +75,7 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 		}
 		defer conn.Close()
 		c := squidgame.NewSquidGameServiceClient(conn)
-		respuesta := sendGame(c, g.Gamenumber, g.Gamename, g.Players, g.Rungames, g.Concurrence, g.Timeout)
+		respuesta := sendGame(c, g.Gamenumber, g.Gamename, g.Players, g.Rungames, g.Concurrence, g.Timeout, g.Request)
 
 		if errorHttp {
 			newMensaje.Mensaje = "¡Error al interacturar con gRPC Server!"
@@ -115,7 +116,7 @@ func main() {
 
 }
 
-func sendGame(c squidgame.SquidGameServiceClient, number string, name string, players int64, rungames int64, concurrence int64, timeout int64) string {
+func sendGame(c squidgame.SquidGameServiceClient, number string, name string, players int64, rungames int64, concurrence int64, timeout int64, request int64) string {
 	fmt.Println(">> CLIENT: Enviando Squid Game a gRPC Server ")
 	req := &squidgame.PlayRequest{
 		Game: &squidgame.Game{
@@ -125,6 +126,7 @@ func sendGame(c squidgame.SquidGameServiceClient, number string, name string, pl
 			Rungames:    rungames,
 			Concurrence: concurrence,
 			Timeout:     timeout,
+			Request:     request,
 		},
 	}
 
