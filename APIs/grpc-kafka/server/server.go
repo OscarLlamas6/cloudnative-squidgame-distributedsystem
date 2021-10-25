@@ -26,10 +26,11 @@ type server struct {
 }
 
 type Atributos struct {
-	Mensaje    string `json:"mensaje"`
 	Gamenumber string `json:"gamenumber"`
 	Gamename   string `json:"gamename"`
 	Ganador    string `json:"ganador"`
+	Players    string `json:"players"`
+	Request    string `json:"request"`
 }
 
 /*ALGORITMOS PARA ELEGIR UN GANADOR*/
@@ -86,6 +87,7 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	gamenumber := req.GetGame().GetGamenumber()
 	gamename := req.GetGame().GetGamename()
 	players := req.GetGame().GetPlayers()
+	request := req.GetGame().GetRequest()
 	// rungames := req.GetGame().GetRungames()
 	// concurrence := req.GetGame().GetConcurrence()
 	// timeout := req.GetGame().GetTimeout()
@@ -145,14 +147,13 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 		Logger: l,
 	})
 
-	mensajeKafka := "Resultados del juego: " + gamename + " :D"
-
 	// We set the payload for the message
 	body := Atributos{
-		Mensaje:    mensajeKafka,
 		Gamenumber: gamenumber,
 		Gamename:   gamename,
 		Ganador:    strconv.Itoa(int(ganador)),
+		Players:    strconv.Itoa(int(players)),
+		Request:    strconv.Itoa(int(request)),
 	}
 
 	jsonObj, err := encoder.Marshal(body)

@@ -57,7 +57,7 @@ func main() {
 				m[k] = v
 			}
 
-			fmt.Println("PubSub >> Mensaje recibido :D")
+			fmt.Println(">> PubSub: Mensaje recibido :D")
 			fmt.Printf("Data: %q\n", string(cadena))
 			fmt.Println("Attributes:")
 			for key, value := range atributos {
@@ -87,7 +87,7 @@ func main() {
 			if err != nil {
 				panic(err)
 			} else {
-				fmt.Println("PubSub >> Mensaje guardado en Redis :)")
+				fmt.Println(">> PubSub: Mensaje guardado en Redis :)")
 			}
 
 			/*GUARDAR LOGS EN MONGO*/
@@ -135,6 +135,7 @@ func main() {
 			}
 
 			/**/
+			c.Disconnect(ctxInsert)
 			cancel()
 			msg.Ack()
 		}

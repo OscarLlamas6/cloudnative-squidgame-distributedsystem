@@ -7,11 +7,14 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/segmentio/kafka-go"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -36,8 +39,8 @@ func main() {
 		GroupID: "squidgames",
 		//Logger:      l,
 		StartOffset: kafka.LastOffset,
-		MinBytes:    0,
-		MaxBytes:    10e6, //10MB
+		//MinBytes:    0,
+		//MaxBytes:    10e6, //10MB
 	})
 
 	fmt.Println("Esperando mensajes...")
@@ -64,6 +67,8 @@ func main() {
 			for key, value := range m {
 				fmt.Printf("%s = %s\n", key, value)
 			}
+
+			m["service"] = "Kafka"
 
 			/*GUARDAR EN REDIS*/
 			redisHOST := os.Getenv("REDIS_HOST")
@@ -93,9 +98,47 @@ func main() {
 			}
 
 			/***************************/
+			/*GUARDAR LOGS EN MONGO*/
 
+			mongoHOST := os.Getenv("MONGO_HOST")
+			mongoPORT := os.Getenv("MONGO_PORT")
+			mongoDB := os.Getenv("MONGO_DB")
+			mongoCOL := os.Getenv("MONGO_COL")
+			mongoURL := fmt.Sprintf("mongodb://%v:%v", mongoHOST, mongoPORT)
+
+			ctxMongo, cancel := context.WithTimeout(context.Background(), time.Second*10)
+			//defer cancel()
+
+			clientOptions := options.Client().ApplyURI(mongoURL).SetDirect(true)
+
+			c, err := mongo.NewClient(clientOptions)
+			if err != nil {
+				log.Fatalf("Error al crear cliente %v", err)
+			}
+			err = c.Connect(ctxMongo)
+			if err != nil {
+				log.Fatalf("Error al realizar conexion %v", err)
+			}
+
+			err = c.Ping(ctxMongo, nil)
+			if err != nil {
+				log.Fatalf("Error al conectar %v", err)
+			}
+
+			ctxInsert := context.Background()
+			//c.Disconnect(ctxInsert)
+
+			todoCollection := c.Database(mongoDB).Collection(mongoCOL)
+			r, err6 := todoCollection.InsertOne(ctxInsert, m)
+			if err6 != nil {
+				log.Fatalf("Error al guardar logs %v", err)
+			} else {
+				fmt.Println(">> KAFKA: Log guardado en Mongo con el id: ", r.InsertedID)
+			}
+
+			c.Disconnect(ctxInsert)
+			cancel()
+			/*FIN DE LOG EN MONGO*/
 		}
-
 	}
-
 }

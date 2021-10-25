@@ -151,9 +151,9 @@ func main() {
 			if err != nil {
 				log.Fatalf("Error al guardar logs %v", err)
 			} else {
-				fmt.Println("RabbitMQ >> Log guardado en Mongo con el id: ", r.InsertedID)
+				fmt.Println(">> RabbitMQ: Log guardado en Mongo con el id: ", r.InsertedID)
 			}
-
+			c.Disconnect(ctxInsert)
 			cancel()
 			/*FIN DE LOG EN MONGO*/
 		}

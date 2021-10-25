@@ -9,6 +9,7 @@ message Game {
   int64 rungames = 4;
   int64 concurrence = 5;
   int64 timeout = 6;
+  int64 request =7;
 }
 
 message PlayRequest {
