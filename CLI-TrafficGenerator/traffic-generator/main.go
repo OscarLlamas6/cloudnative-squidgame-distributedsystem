@@ -83,7 +83,9 @@ func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
 			squidgameset.GetPlayers(),
 			squidgameset.GetRungames(),
 			squidgameset.GetConcurrence(),
-			squidgameset.GetTimeout())
+			squidgameset.GetTimeout(),
+			1,
+		)
 
 		Games = append(Games, newGame)
 		x = x + 2
@@ -97,6 +99,9 @@ func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
 }
 
 func sendRequest(numero int, game *helpers.SingleGame) {
+
+	//Asignando el numero correcto de peticion
+	game.Request = int64(numero)
 
 	// Convert Json Body
 	postBody := new(bytes.Buffer)

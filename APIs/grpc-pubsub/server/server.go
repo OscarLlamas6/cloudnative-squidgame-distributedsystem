@@ -76,6 +76,7 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 	gamenumber := req.GetGame().GetGamenumber()
 	gamename := req.GetGame().GetGamename()
 	players := req.GetGame().GetPlayers()
+	request := req.GetGame().GetRequest()
 	// rungames := req.GetGame().GetRungames()
 	// concurrence := req.GetGame().GetConcurrence()
 	// timeout := req.GetGame().GetTimeout()
@@ -141,6 +142,8 @@ func (s *server) Play(ctx context.Context, req *squidgame.PlayRequest) (*squidga
 			"gamenumber": gamenumber,
 			"gamename":   gamename,
 			"ganador":    strconv.Itoa(int(ganador)),
+			"players":    strconv.Itoa(int(players)),
+			"request":    strconv.Itoa(int(request)),
 		},
 	})
 

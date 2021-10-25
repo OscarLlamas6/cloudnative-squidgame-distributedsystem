@@ -29,6 +29,10 @@ GOLANG_TOPIC=<topic-name>
 GOLANG_SUB=<sub-name>
 REDIS_HOST=<redis-service-ip>
 REDIS_PORT=<redis-service-port>
+MONGO_HOST=<mongo-service-ip>
+MONGO_PORT=<mongo-service-port>
+MONGO_DB=<mongo-db-name>
+MONGO_COL=<mongo-collection-name>
 
 # En la raiz del proyecto ubicar el json de la private key 
 

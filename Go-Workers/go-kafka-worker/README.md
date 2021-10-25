@@ -26,7 +26,10 @@ KAFKA_PORT=<kafka-broker-service-port>
 KAFKA_TOPIC=<kafka-topic>
 REDIS_HOST=<redis-service-ip>
 REDIS_PORT=<redis-service-port>
-
+MONGO_HOST=<mongo-service-ip>
+MONGO_PORT=<mongo-service-port>
+MONGO_DB=<mongo-db-name>
+MONGO_COL=<mongo-collection-name>
 
 ```
 

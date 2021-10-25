@@ -8,10 +8,11 @@ type SingleGame struct {
 	Rungames    int64  `json:"rungames"`
 	Concurrence int64  `json:"concurrence"`
 	Timeout     int64  `json:"timeout"`
+	Request     int64  `json:"request"`
 }
 
 //NewSingleGame returned fuction
-func NewSingleGame(n string, g string, p int64, r int64, c int64, t int64) *SingleGame {
+func NewSingleGame(n string, g string, p int64, r int64, c int64, t int64, req int64) *SingleGame {
 	return &SingleGame{
 		Gamenumber:  n,
 		Gamename:    g,
@@ -19,6 +20,7 @@ func NewSingleGame(n string, g string, p int64, r int64, c int64, t int64) *Sing
 		Rungames:    r,
 		Concurrence: c,
 		Timeout:     t,
+		Request:     req,
 	}
 }
 
@@ -44,4 +46,8 @@ func (s *SingleGame) GetConcurrence() int64 {
 
 func (s *SingleGame) GetTimeout() int64 {
 	return s.Timeout
+}
+
+func (s *SingleGame) GetRequest() int64 {
+	return s.Request
 }

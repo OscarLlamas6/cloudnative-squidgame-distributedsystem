@@ -55,6 +55,8 @@ github.com/OscarLlamas6/grpc-helpers v0.0.0-20211019223221-37a57b2f184c h1:DVdA0
 github.com/OscarLlamas6/grpc-helpers v0.0.0-20211019223221-37a57b2f184c/go.mod h1:m6LMpDByytNc5fhhvLeCode8sVu0C6gMEKoyEoCONcw=
 github.com/OscarLlamas6/grpc-helpers/protos/squidgame v0.0.0-20211019235327-5da1c83208f5 h1:3NpY8eZpibW9pM38t77AymQHLY0PTlJs/DA6JL5oOvs=
 github.com/OscarLlamas6/grpc-helpers/protos/squidgame v0.0.0-20211019235327-5da1c83208f5/go.mod h1:Xmb9ne0GIhtRx5rJh+xnKQDUb1pLnFn5Xh43Oe9qUIQ=
+github.com/OscarLlamas6/grpc-helpers/protos/squidgame v0.0.0-20211025000053-006352d75d8e h1:5I2u16O3naK8MsRiZTC8Nhx65Xa3EuVovrzyG5JTMZc=
+github.com/OscarLlamas6/grpc-helpers/protos/squidgame v0.0.0-20211025000053-006352d75d8e/go.mod h1:9d21g/dwg/Tbh52fxx4zanM+xF6B9DOKipdaOCtSt0Q=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
