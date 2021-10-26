@@ -3,7 +3,7 @@ version: "3.5"
 services:
 
   db:
-    command: bash -c "redis-server --appendonly yes"
+    command: bash -c "redis-server --appendonly yes --requirepass ${REDISPASS}"
     image: redis
     ports:
       - "6379:6379"
