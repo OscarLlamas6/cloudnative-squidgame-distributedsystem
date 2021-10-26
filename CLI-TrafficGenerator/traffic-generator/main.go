@@ -103,7 +103,7 @@ func GetGamesConfig(squidgameset *helpers.SquidGameSet) []*helpers.SingleGame {
 func sendRequest(numero int, game *helpers.SingleGame) {
 
 	//Asignando el numero correcto de peticion
-	game.Request = int64(numero)
+	game.Request = int64(numero + 1)
 
 	// Convert Json Body
 	postBody := new(bytes.Buffer)

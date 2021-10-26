@@ -71,14 +71,15 @@ func main() {
 
 			redisHOST := os.Getenv("REDIS_HOST")
 			redisPORT := os.Getenv("REDIS_PORT")
+			redisPASS := os.Getenv("REDIS_PASS")
 			redisURL := fmt.Sprintf("%v:%v", redisHOST, redisPORT)
 
 			ctxRedis := context.Background()
 
 			cliente := redis.NewClient(&redis.Options{
 				Addr:     redisURL,
-				Password: "", // no password set
-				DB:       0,  // use default DB
+				Password: redisPASS, // no password set
+				DB:       0,         // use default DB
 			})
 
 			randomKey := strings.Replace(uuid.New().String(), "-", "", -1)
@@ -96,12 +97,17 @@ func main() {
 			mongoPORT := os.Getenv("MONGO_PORT")
 			mongoDB := os.Getenv("MONGO_DB")
 			mongoCOL := os.Getenv("MONGO_COL")
-			mongoURL := fmt.Sprintf("mongodb://%v:%v", mongoHOST, mongoPORT)
+			mongoUSER := os.Getenv("MONGO_USER")
+			mongoPASS := os.Getenv("MONGO_PASS")
+			mongoURL := fmt.Sprintf(`mongodb://%v:%v/?authSource=admin&readPreference=primary&directConnection=true&ssl=false`, mongoHOST, mongoPORT)
+
+			credential := options.Credential{
+				Username: mongoUSER,
+				Password: mongoPASS,
+			}
 
 			ctxMongo, cancel := context.WithTimeout(context.Background(), time.Second*10)
-			//defer cancel()
-
-			clientOptions := options.Client().ApplyURI(mongoURL).SetDirect(true)
+			clientOptions := options.Client().ApplyURI(mongoURL).SetAuth(credential)
 
 			c, err := mongo.NewClient(clientOptions)
 			if err != nil {
@@ -118,7 +124,6 @@ func main() {
 			}
 
 			ctxInsert := context.Background()
-			//defer c.Disconnect(ctxInsert)
 
 			m2 := make(map[string]string)
 			m2["service"] = "Google PubSub"
@@ -134,7 +139,7 @@ func main() {
 				fmt.Println("PubSub >> Log guardado en Mongo con el id: ", r.InsertedID)
 			}
 
-			/**/
+			/*-----------------------------------------------------*/
 			c.Disconnect(ctxInsert)
 			cancel()
 			msg.Ack()

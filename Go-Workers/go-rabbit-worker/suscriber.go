@@ -17,6 +17,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+func isJSON(s string) bool {
+	var js map[string]interface{}
+	return encoder.Unmarshal([]byte(s), &js) == nil
+
+}
+
 func main() {
 
 	err := godotenv.Load()
@@ -76,86 +82,94 @@ func main() {
 		//Iterando sobre cada mensaje recbido
 		for d := range msgs {
 			fmt.Println("RabbitMQ >> Mensaje recibido :D")
-			//Creo un map para mappea el arreglo de bytes del cuerpo del mensaje
-			m := make(map[string]string)
-			err2 := encoder.Unmarshal(d.Body, &m)
-			if err2 != nil {
-				fmt.Printf("Error: %v\n", err)
-			}
-			//Itero en cada llave/valor del map
-			for key, value := range m {
-				fmt.Printf("%s = %s\n", key, value)
-			}
 
-			m["service"] = "RabbitMQ"
+			if isJSON(string(d.Body)) {
+				//Creo un map para mappea el arreglo de bytes del cuerpo del mensaje
+				m := make(map[string]string)
+				err2 := encoder.Unmarshal(d.Body, &m)
+				if err2 != nil {
+					fmt.Printf("Error: %v\n", err)
+				}
+				//Itero en cada llave/valor del map
+				for key, value := range m {
+					fmt.Printf("%s = %s\n", key, value)
+				}
 
-			/*GUARDAR EN REDIS*/
-			redisHOST := os.Getenv("REDIS_HOST")
-			redisPORT := os.Getenv("REDIS_PORT")
-			redisURL := fmt.Sprintf("%v:%v", redisHOST, redisPORT)
+				m["service"] = "RabbitMQ"
 
-			ctxRedis := context.Background()
+				/*GUARDAR EN REDIS*/
+				redisHOST := os.Getenv("REDIS_HOST")
+				redisPORT := os.Getenv("REDIS_PORT")
+				redisPASS := os.Getenv("REDIS_PASS")
+				redisURL := fmt.Sprintf("%v:%v", redisHOST, redisPORT)
 
-			cliente := redis.NewClient(&redis.Options{
-				Addr:     redisURL,
-				Password: "", // no password set
-				DB:       0,  // use default DB
-			})
+				ctxRedis := context.Background()
+				cliente := redis.NewClient(&redis.Options{
+					Addr:     redisURL,
+					Password: redisPASS, // no password set
+					DB:       0,         // use default DB
+				})
 
-			randomKey := strings.Replace(uuid.New().String(), "-", "", -1)
+				randomKey := strings.Replace(uuid.New().String(), "-", "", -1)
+				data, err := encoder.Marshal(m)
+				if err != nil {
+					fmt.Printf("Error: %v\n", err)
+				}
 
-			data, err := encoder.Marshal(m)
-			if err != nil {
-				fmt.Printf("Error: %v\n", err)
-			}
+				err = cliente.Set(ctxRedis, randomKey, data, -1).Err()
+				if err != nil {
+					panic(err)
+				} else {
+					fmt.Println("RabbitMQ >> Mensaje guardado en Redis :)")
+				}
 
-			err = cliente.Set(ctxRedis, randomKey, data, 0).Err()
-			if err != nil {
-				panic(err)
+				/*GUARDAR LOGS EN MONGO*/
+
+				mongoHOST := os.Getenv("MONGO_HOST")
+				mongoPORT := os.Getenv("MONGO_PORT")
+				mongoDB := os.Getenv("MONGO_DB")
+				mongoCOL := os.Getenv("MONGO_COL")
+				mongoUSER := os.Getenv("MONGO_USER")
+				mongoPASS := os.Getenv("MONGO_PASS")
+				mongoURL := fmt.Sprintf(`mongodb://%v:%v/?authSource=admin&readPreference=primary&directConnection=true&ssl=false`, mongoHOST, mongoPORT)
+
+				credential := options.Credential{
+					Username: mongoUSER,
+					Password: mongoPASS,
+				}
+
+				ctxMongo, cancel := context.WithTimeout(context.Background(), time.Second*10)
+				clientOptions := options.Client().ApplyURI(mongoURL).SetAuth(credential)
+
+				c, err := mongo.NewClient(clientOptions)
+				if err != nil {
+					log.Fatalf("Error al crear cliente %v", err)
+				}
+				err = c.Connect(ctxMongo)
+				if err != nil {
+					log.Fatalf("Error al realizar conexion %v", err)
+				}
+
+				err = c.Ping(ctxMongo, nil)
+				if err != nil {
+					log.Fatalf("Error al conectar %v", err)
+				}
+
+				ctxInsert := context.Background()
+				todoCollection := c.Database(mongoDB).Collection(mongoCOL)
+				r, err := todoCollection.InsertOne(ctxInsert, m)
+				if err != nil {
+					log.Fatalf("Error al guardar logs %v", err)
+				} else {
+					fmt.Println(">> RabbitMQ: Log guardado en Mongo con el id: ", r.InsertedID)
+				}
+				c.Disconnect(ctxInsert)
+				cancel()
+				/*---------------FIN DE LOG EN MONGO------------------*/
 			} else {
-				fmt.Println("RabbitMQ >> Mensaje guardado en Redis :)")
+				fmt.Println(string(d.Body))
 			}
 
-			/*GUARDAR LOGS EN MONGO*/
-
-			mongoHOST := os.Getenv("MONGO_HOST")
-			mongoPORT := os.Getenv("MONGO_PORT")
-			mongoDB := os.Getenv("MONGO_DB")
-			mongoCOL := os.Getenv("MONGO_COL")
-			mongoURL := fmt.Sprintf("mongodb://%v:%v", mongoHOST, mongoPORT)
-
-			ctxMongo, cancel := context.WithTimeout(context.Background(), time.Second*10)
-			//defer cancel()
-
-			clientOptions := options.Client().ApplyURI(mongoURL).SetDirect(true)
-
-			c, err := mongo.NewClient(clientOptions)
-			if err != nil {
-				log.Fatalf("Error al crear cliente %v", err)
-			}
-			err = c.Connect(ctxMongo)
-			if err != nil {
-				log.Fatalf("Error al realizar conexion %v", err)
-			}
-
-			err = c.Ping(ctxMongo, nil)
-			if err != nil {
-				log.Fatalf("Error al conectar %v", err)
-			}
-
-			ctxInsert := context.Background()
-			//defer c.Disconnect(ctxInsert)
-
-			todoCollection := c.Database(mongoDB).Collection(mongoCOL)
-			r, err := todoCollection.InsertOne(ctxInsert, m)
-			if err != nil {
-				log.Fatalf("Error al guardar logs %v", err)
-			} else {
-				fmt.Println(">> RabbitMQ: Log guardado en Mongo con el id: ", r.InsertedID)
-			}
-			c.Disconnect(ctxInsert)
-			cancel()
-			/*FIN DE LOG EN MONGO*/
 		}
 	}()
 
