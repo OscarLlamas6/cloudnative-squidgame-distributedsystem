@@ -3,6 +3,13 @@
 - Docker-compose para levantar servicio de Redis
 
 
+## Variables de entorno necesarias
+
+
+```bash
+export REDISPASS=<redis-pass>
+```
+
 ## Comandos
 
 ```bash

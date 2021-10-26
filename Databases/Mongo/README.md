@@ -3,6 +3,17 @@
 - Docker-compose para levantar servicio de MongoDB
 
 
+## Variables de entorno necesarias
+
+
+```bash
+export MONGO_INITDB_ROOT_USERNAME=<mongo-user>
+export MONGO_INITDB_ROOT_PASSWORD=<mongo-pass>
+export MONGO_INITDB_DATABASE=admin
+export dbUser=<mongo-user>
+export dbPwd=<mongo-pass>
+```
+
 ## Comandos
 
 ```bash
