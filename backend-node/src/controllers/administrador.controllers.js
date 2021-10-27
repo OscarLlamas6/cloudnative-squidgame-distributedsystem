@@ -1,4 +1,4 @@
-const db = require('../database')
+//const db = require('../database')
 const estudianteControllers = {};
 
 
@@ -9,3 +9,5 @@ const estudianteControllers = {};
 estudianteControllers.test = async (req, res) => {
     return res.status(200).send({ results: 'exito' })
 }
+
+module.exports = estudianteControllers
