@@ -45,5 +45,23 @@ Please enter numeric choice or text value (must exactly match list item): 2
 # Verificamos que haya sido configurada correctamente
 
 > gcloud config list compute/zone
-    
+
+# Instalamos kubectl
+
+> gcloud components install kubectl
+
+# Creamos cluster kubernetes
+
+> gcloud container clusters create squidgames --num-nodes=3 --tags=allin,allout --machine-type=n1-standard-2 --no-enable-network-policy
+
+#Recuperando credenciales para Kubectl
+> gcloud container clusters get-credentials k8s-demo --zone=us-central1-c
+
+#Permisos necesarios para el ingress controlers
+> kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value account)  
+
+
+#Creamos reglas de firewall para los puertos
+> gcloud compute firewall-rules create fwrule-kubernetes --allow tcp:30000-32767 
+
  ```

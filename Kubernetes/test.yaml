@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sopes1-pod
+  labels:
+    app: sopes1
+spec:
+  containers:
+  - name: api-hello
+    image: docker.io/oscarllamas6/hello-golang:latest
+    ports:
+    - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sopes1-service
+  labels:
+    app: sopes1
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30036
+      protocol: TCP
+  selector:
+    app: sopes1
