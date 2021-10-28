@@ -16,6 +16,7 @@
         "express": "^4.17.1",
         "morgan": "^1.10.0",
         "mysql2": "^2.3.0",
+        "redis": "^3.1.2",
         "request": "^2.88.2",
         "serialport": "^9.2.0"
     },
