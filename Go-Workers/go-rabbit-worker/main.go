@@ -124,7 +124,6 @@ func main() {
 				}
 
 				/*GUARDAR LOGS EN MONGO*/
-
 				mongoHOST := os.Getenv("MONGO_HOST")
 				mongoPORT := os.Getenv("MONGO_PORT")
 				mongoDB := os.Getenv("MONGO_DB")

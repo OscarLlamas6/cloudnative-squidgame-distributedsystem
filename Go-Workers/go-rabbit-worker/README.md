@@ -39,6 +39,15 @@ MONGO_PASS=<mongo-pass>
 
 ```
 
+### Crear Docker images
+
+```bash
+
+# Imagen Docker
+> docker build -t oscarllamas6/go-rabbit-worker:v1 .
+
+```
+
 ### Ejecutar suscriptor
 
 ```bash
