@@ -1,6 +1,36 @@
 # Kubernetes: USAC Squid Games - Distributed Cloud Native System
 
-Instalaciones necesarias:
+
+## Variables de entorno
+
+-   Crear un archivo .env exportando las variables de entorno, ejemplo:
+
+```bash
+export REDIS_HOST=<redis-service-ip>
+export REDIS_PORT=<redis-service-port>
+export REDIS_PASS=<redis-db-password>
+```
+
+- Instalar envsubst
+
+```bash
+> curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+> chmod +x envsubst
+> sudo mv envsubst /usr/local/bin
+```
+
+- Ejemplosde uso.
+
+```bash
+
+# Aplicando un manifiesto de Kubernetes luego de sustituir variables de entorno
+>  source .env
+>  envsubst < deployment.yaml | kubectl apply -f -
+
+# Creando un archivo nuevo con el resultado de sistituir las variables de entorno
+> source .env
+> envsubst < deployment.yaml > nuevo_deployment.yaml
+```
 
 # Contenido
 - [Windows](#windows) 

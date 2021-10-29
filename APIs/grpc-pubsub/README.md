@@ -1,6 +1,6 @@
-# APIs: USAC Squid Games - Distributed Cloud Native System
+# gRPC PubSub: USAC Squid Games - Distributed Cloud Native System
 
-- APIs para guardar datos de un juego en bases de datos de Redis por medio de gRPC usando Kafka, RabbitMQ y PubSub. 
+- API para guardar datos de un juego en bases de datos de Redis por medio de gRPC usando PubSub. 
 
 
 ## Instalaciones necesarias:
@@ -17,12 +17,6 @@
 #PubSub
 > go get go get -u cloud.google.com/go/pubsub
 
-#RabbitMQ
-> go get github.com/streadway/amqp
-
-#Kafka
-> go get github.com/google/uuid
-> go get github.com/segmentio/kafka-go
 
 #Compilar archivo .proto
 > protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative <.proto filename path>
@@ -34,27 +28,11 @@
 
 ```bash
 
-# Variables de entorno para Kafka
-KAFKA_CLIENT_NAME="gRPC Kafka SQUID GAME Client :)"
-KAFKA_SERVER_NAME="gRPC Kafka SQUID GAMES Server :D"
-KAFKA_CLIENT_HOST=localhost
-KAFKA_CLIENT_PORT=3037
-KAFKA_SERVER_HOST=localhost
-KAFKA_SERVER_HOST=6000
-# Variables de entorno para RabbitMQ
-RABBIT_CLIENT_NAME="gRPC RabbitMQ SQUID GAME Client :)"
-RABBIT_SERVER_NAME="gRPC RabbitMQ SQUID GAMES Server :D"
-RABBIT_CLIENT_HOST=localhost
-RABBIT_CLIENT_PORT=3038
-RABBIT_SERVER_HOST=localhost
-RABBIT_SERVER_PORT=6001
 # Variables de entorno para PubSub
 PUBSUB_CLIENT_NAME="gRPC PubSub SQUID GAME Client :)"
 PUBSUB_SERVER_NAME="gRPC PubSub SQUID GAMES Server :D"
-PUBSUB_CLIENT_HOST=localhost
-PUBSUB_CLIENT_PORT=3039
-PUBSUB_SERVER_HOST=localhost
-PUBSUB_SERVER_PORT=6002
+PUBSUB_CLIENT_HOST=0.0.0.0:3039
+PUBSUB_SERVER_HOST=0.0.0.0:6002
 
 # Variables de entorno para bases de datos
 REDIS_HOST=<redis-service-ip>
@@ -68,6 +46,18 @@ MONGO_USER=<mongo-user>
 MONGO_PASS=<mongo-pass>
 
 #los valores de las ips y puertos son editables
+
+```
+
+### Crear Docker images
+
+```bash
+
+# Imagen Cliente
+> docker build -f .\Dockerfile.client -t oscarllamas6/grpc-pubsub-client:v1 .
+
+# Imagen Servidor
+> docker build -f .\Dockerfile.server -t oscarllamas6/grpc-pubsub-server:v1 .
 
 ```
 

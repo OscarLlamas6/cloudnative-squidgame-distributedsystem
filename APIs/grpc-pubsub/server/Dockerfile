@@ -12,8 +12,8 @@ RUN chmod 777 .env
 
 COPY . .
 
-RUN go build ./client/client.go
+RUN go build -o /grpc-server
 
-EXPOSE 3039
+EXPOSE 6002
 
-CMD [ "/client" ]
+CMD [ "/grpc-server" ]
