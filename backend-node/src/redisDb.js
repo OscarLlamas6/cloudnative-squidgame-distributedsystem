@@ -1,3 +1,5 @@
+const io = require('./socket')
+
 const redis = require("redis");
 const client = redis.createClient({
     host: process.env.REDIS_HOST,
@@ -18,6 +20,7 @@ client.subscribe('__keyevent@0__:set');
 
 client.on('message', function (channel, key) {
     console.log('Redis cambio', key)
+    io.emit('test', { test: 'test' })
 });
 
 client.set("key", "value", redis.print);
