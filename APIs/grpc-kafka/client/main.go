@@ -65,10 +65,13 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 		}
 
 		grpc_server_host := os.Getenv("KAFKA_SERVER_HOST")
-		fmt.Println(">> CLIENT: Iniciando cliente gRPC")
-		fmt.Println(">> CLIENT: Iniciando conexion con el servidor gRPC ", grpc_server_host)
+		grpc_server_port := os.Getenv("KAFKA_SERVER_PORT")
+		grpc_server_url := fmt.Sprintf("%v:%v", grpc_server_host, grpc_server_port)
 
-		conn, err := grpc.Dial(grpc_server_host, grpc.WithInsecure())
+		fmt.Println(">> CLIENT: Iniciando cliente gRPC")
+		fmt.Println(">> CLIENT: Iniciando conexion con el servidor gRPC ", grpc_server_url)
+
+		conn, err := grpc.Dial(grpc_server_url, grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("could not connect: %v", err)
 			errorHttp = true
@@ -105,7 +108,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	instance_name := os.Getenv("KAFKA_CLIENT_NAME")
-	client_host := os.Getenv("KAFKA_CLIENT_HOST")
+	client_port := os.Getenv("KAFKA_CLIENT_PORT")
+	client_host := fmt.Sprintf("0.0.0.0:%v", client_port)
 
 	fmt.Println(">> --------  ", instance_name, " --------")
 	fmt.Println(">> CLIENT: Iniciando servidor http en ", client_host)

@@ -14,6 +14,7 @@
 > go get -u github.com/OscarLlamas6/grpc-helpers/protos/squidgame@3fee080cdaf278014e90fde74f6655a8b9513b2f
 > go get github.com/joho/godotenv/cmd/godotenv
 
+#RabbitMQ
 > go get github.com/streadway/amqp
 
 #Compilar archivo .proto
@@ -62,11 +63,11 @@ MONGO_PASS=<mongo-pass>
 
 ```
 
-### Ejecutar cliente
+### Ejecutar servidor
 
 ```bash
 
-#Para iniciar cliente
+#Para iniciar servidor
 > go run main.go
 ```
 

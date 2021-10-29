@@ -35,6 +35,12 @@ PUBSUB_CLIENT_HOST=localhost
 PUBSUB_CLIENT_PORT=3039
 PUBSUB_SERVER_HOST=localhost
 PUBSUB_SERVER_PORT=6002
+TOPIC_NAME=projects/<projet-id>/topics/<topic-name>
+PUBSUB_KEY_PATH=<relative path to private key json file>
+SUB_NAME=projects/<project-id>/subscriptions/<sub-name>
+PUBSUB_PROJECT=<project-id>
+GOLANG_TOPIC=<topic-name>
+GOLANG_SUB=<sub-name>
 
 # Variables de entorno para bases de datos
 REDIS_HOST=<redis-service-ip>

@@ -12,6 +12,10 @@
 > go get github.com/go-redis/redis/v8
 > go get github.com/google/uuid
 > go get go.mongodb.org/mongo-driver/mongo
+
+#Pubsub
+> go get -u cloud.google.com/go/pubsub
+
 ```
 
 ## Variables de entorno necesarias
@@ -42,12 +46,21 @@ MONGO_PASS=<mongo-pass>
 
 ```
 
+### Crear Docker images
+
+```bash
+
+# Imagen Docker
+> docker build -t oscarllamas6/go-pubsub-worker:v1 .
+
+```
+
 ### Ejecutar suscriptor
 
 ```bash
 
-#Para iniciar cliente
-> go run suscriber.go
+#Para iniciar suscriber
+> go run main.go
 
 ```
 
