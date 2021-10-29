@@ -172,7 +172,6 @@ func main() {
 
 	grpc_server_port := os.Getenv("PUBSUB_SERVER_PORT")
 	grpc_server_host := fmt.Sprintf(":%v", grpc_server_port)
-
 	instance_name := os.Getenv("PUBSUB_SERVER_NAME")
 	fmt.Println(">> -------- ", instance_name, " --------")
 	fmt.Println(">> SERVER: Iniciando servidor gRPC en ", grpc_server_host)

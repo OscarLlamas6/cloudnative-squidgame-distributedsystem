@@ -31,8 +31,10 @@
 # Variables de entorno para PubSub
 PUBSUB_CLIENT_NAME="gRPC PubSub SQUID GAME Client :)"
 PUBSUB_SERVER_NAME="gRPC PubSub SQUID GAMES Server :D"
-PUBSUB_CLIENT_HOST=0.0.0.0:3039
-PUBSUB_SERVER_HOST=0.0.0.0:6002
+PUBSUB_CLIENT_HOST=localhost
+PUBSUB_CLIENT_PORT=3039
+PUBSUB_SERVER_HOST=localhost
+PUBSUB_SERVER_PORT=6002
 
 # Variables de entorno para bases de datos
 REDIS_HOST=<redis-service-ip>
@@ -49,17 +51,6 @@ MONGO_PASS=<mongo-pass>
 
 ```
 
-### Crear Docker images
-
-```bash
-
-# Imagen Cliente
-> docker build -f .\Dockerfile.client -t oscarllamas6/grpc-pubsub-client:v1 .
-
-# Imagen Servidor
-> docker build -f .\Dockerfile.server -t oscarllamas6/grpc-pubsub-server:v1 .
-
-```
 
 ### Ejecutar cliente y servidor
 

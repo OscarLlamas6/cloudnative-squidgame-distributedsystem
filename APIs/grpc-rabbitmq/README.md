@@ -1,6 +1,6 @@
-# APIs: USAC Squid Games - Distributed Cloud Native System
+# gRPC RabbitMG: USAC Squid Games - Distributed Cloud Native System
 
-- API para guardar datos de un juego en bases de datos de Redis por medio de gRPC usando RabbitMQ. 
+- Cliente gRPC
 
 
 ## Instalaciones necesarias:
@@ -14,8 +14,8 @@
 > go get -u github.com/OscarLlamas6/grpc-helpers/protos/squidgame@3fee080cdaf278014e90fde74f6655a8b9513b2f
 > go get github.com/joho/godotenv/cmd/godotenv
 
-#RabbitMQ
-> go get github.com/streadway/amqp
+#PubSub
+> go get go get -u cloud.google.com/go/pubsub
 
 
 #Compilar archivo .proto
@@ -27,7 +27,6 @@
 - Agregar un archivo llamado `.env` en la raiz de cada API con las siguientes variables de entorno:
 
 ```bash
-
 
 # Variables de entorno para RabbitMQ
 RABBIT_CLIENT_NAME="gRPC RabbitMQ SQUID GAME Client :)"
@@ -51,6 +50,7 @@ MONGO_PASS=<mongo-pass>
 #los valores de las ips y puertos son editables
 
 ```
+
 
 ### Ejecutar cliente y servidor
 

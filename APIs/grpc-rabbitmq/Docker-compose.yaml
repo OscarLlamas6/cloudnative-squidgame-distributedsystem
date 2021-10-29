@@ -1,0 +1,44 @@
+version: "3.5"
+
+services:
+
+  grpc-rabbit-client:
+    container_name: grpc-rabbit-client
+    image: oscarllamas6/grpc-rabbit-client:v1
+    env_file:
+      - ./.env
+    ports:
+      - "3038:3038"
+    restart: unless-stopped
+    depends_on:
+      - grpc-rabbit-server
+    networks:
+      - service_network
+
+  grpc-rabbit-server:
+    container_name: grpc-rabbit-server
+    image: oscarllamas6/grpc-rabbit-server:v1
+    env_file:
+      - ./.env
+    ports:
+      - "6001:6001"
+    restart: unless-stopped
+    networks:
+      - service_network
+
+  rabbitmq-server:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq-server
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - service_network
+
+networks:
+       
+  service_network:
+    driver: bridge

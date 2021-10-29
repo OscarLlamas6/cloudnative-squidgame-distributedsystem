@@ -211,7 +211,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	grpc_server_host := os.Getenv("RABBIT_SERVER_HOST")
+	grpc_server_port := os.Getenv("RABBIT_SERVER_PORT")
+	grpc_server_host := fmt.Sprintf(":%v", grpc_server_port)
 	instance_name := os.Getenv("RABBIT_SERVER_NAME")
 	fmt.Println(">> -------- ", instance_name, " --------")
 	fmt.Println(">> SERVER: Iniciando servidor gRPC en ", grpc_server_host)
