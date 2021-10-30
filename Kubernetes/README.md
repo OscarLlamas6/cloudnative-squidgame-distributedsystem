@@ -3,25 +3,34 @@
 
 ## Variables de entorno
 
--   Crear un archivo .env exportando las variables de entorno, ejemplo:
+-   Crear un archivo variables.conf con las variables de entorno, ejemplo:
 
 ```bash
-export REDIS_HOST=<redis-service-ip>
-export REDIS_PORT=<redis-service-port>
-export REDIS_PASS=<redis-db-password>
+REDIS_HOST=<redis-service-ip>
+REDIS_PORT=<redis-service-port>
+REDIS_PASS=<redis-db-password>
+```
+
+-   Crear un archivo config.sh con el siguiente codigo:
+
+```bash
+while read line; do export "$line";
+done < variables.conf
+echo "done"
 ```
 
 - Instalar envsubst
 
 ```bash
-> curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
-> chmod +x envsubst
-> sudo mv envsubst /usr/local/bin
+> apt-get install gettext-base
 ```
 
 - Ejemplos de uso.
 
 ```bash
+
+# Leyendo y seteando variables de entorno
+> . ./config.sh
 
 # Aplicando un manifiesto de Kubernetes luego de sustituir variables de entorno
 >  source .env
@@ -93,5 +102,15 @@ Please enter numeric choice or text value (must exactly match list item): 2
 
 #Creamos reglas de firewall para los puertos
 > gcloud compute firewall-rules create fwrule-kubernetes --allow tcp:30000-32767 
+
+ ```
+
+
+ # Comandos kubectl
+
+ ```bash
+
+# Levantar servicios Pubsub
+>  kubectl apply -f pubsub.yaml
 
  ```

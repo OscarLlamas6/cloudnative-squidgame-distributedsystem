@@ -27,11 +27,11 @@ spec:
           - name: PUBSUB_CLIENT_HOST
             value: ${PUBSUB_CLIENT_HOST}
           - name: PUBSUB_CLIENT_PORT
-            value: "3090"
+            value: ${PUBSUB_CLIENT_PORT}
           - name: PUBSUB_SERVER_HOST
             value: ${PUBSUB_SERVER_HOST}
           - name: PUBSUB_SERVER_PORT
-            value: "6002"
+            value: ${PUBSUB_SERVER_PORT}
           - name: TOPIC_NAME
             value: ${TOPIC_NAME}
           - name: PUBSUB_KEY_PATH
@@ -93,11 +93,11 @@ spec:
           - name: PUBSUB_CLIENT_HOST
             value: ${PUBSUB_CLIENT_HOST}
           - name: PUBSUB_CLIENT_PORT
-            value: "3039"
+            value: ${PUBSUB_CLIENT_PORT}
           - name: PUBSUB_SERVER_HOST
             value: ${PUBSUB_SERVER_HOST}
           - name: PUBSUB_SERVER_PORT
-            value: "6002"
+            value: ${PUBSUB_SERVER_PORT}
           - name: TOPIC_NAME
             value: ${TOPIC_NAME}
           - name: PUBSUB_KEY_PATH
@@ -165,15 +165,15 @@ spec:
           - name: GOLANG_SUB
             value: ${GOLANG_SUB}
           - name: REDIS_HOST
-            value: $REDIS_HOST
+            value: ${REDIS_HOST}
           - name: REDIS_PORT
-            value: "6379"
+            value: ${REDIS_PORT}
           - name: REDIS_PASS
             value: ${REDIS_PASS}
           - name: MONGO_HOST
-            value: $MONGO_HOST
+            value: ${MONGO_HOST}
           - name: MONGO_PORT
-            value: "27017"
+            value: ${MONGO_PORT}
           - name: MONGO_DB
             value: ${MONGO_DB}
           - name: MONGO_COL
