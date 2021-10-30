@@ -19,7 +19,7 @@ export REDIS_PASS=<redis-db-password>
 > sudo mv envsubst /usr/local/bin
 ```
 
-- Ejemplosde uso.
+- Ejemplos de uso.
 
 ```bash
 
@@ -27,7 +27,7 @@ export REDIS_PASS=<redis-db-password>
 >  source .env
 >  envsubst < deployment.yaml | kubectl apply -f -
 
-# Creando un archivo nuevo con el resultado de sistituir las variables de entorno
+# Creando un archivo nuevo con el resultado de sustituir las variables de entorno
 > source .env
 > envsubst < deployment.yaml > nuevo_deployment.yaml
 ```

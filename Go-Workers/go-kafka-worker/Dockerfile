@@ -13,7 +13,7 @@ RUN chmod 777 .env
 
 COPY . .
 
-RUN go build -o /go-rabbit-worker
+RUN go build -o /go-kakfa-worker
 
-CMD [ "/go-rabbit-worker" ]
+CMD [ "/go-kafka-worker" ]
 
