@@ -1,0 +1,184 @@
+# DEPLOYMENT PARA GRPC KAFKA CLIENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-kafka-client
+  namespace: squidgames
+  labels:
+    app: grpc-kafka-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-kafka-client
+  template:
+    metadata:
+      labels:
+        app: grpc-kafka-client
+    spec:
+      containers:
+      - name: grpc-kafka-client
+        image: docker.io/oscarllamas6/grpc-kafka-client:v1
+        env:
+          - name: KAFKA_CLIENT_NAME
+            value: ${KAFKA_CLIENT_NAME}
+          - name: KAFKA_SERVER_NAME
+            value: ${KAFKA_SERVER_NAME}
+          - name: KAFKA_CLIENT_HOST
+            value: ${KAFKA_CLIENT_HOST}
+          - name: KAFKA_CLIENT_PORT
+            value: ${KAFKA_CLIENT_PORT}
+          - name: KAFKA_SERVER_HOST
+            value: ${KAFKA_SERVER_HOST}
+          - name: KAFKA_SERVER_PORT
+            value: ${KAFKA_SERVER_PORT}
+          - name: KAFKA_HOST
+            value: ${KAFKA_HOST}
+          - name: KAFKA_PORT
+            value: ${KAFKA_PORT}
+          - name: KAFKA_TOPIC
+            value: ${KAFKA_TOPIC}
+        ports:
+        - containerPort: 3037
+---
+# SERVICIO CLUSTERIP PARA KAFKA CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-kafka-client-service
+  namespace: squidgames
+  labels:
+    app: grpc-kafka-client
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3037
+      targetPort: 3037
+      protocol: TCP
+  selector:
+    app: grpc-kafka-client
+---
+# SERVICIO NODEPORT PARA KAFKA CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-kafka-client-service2
+  namespace: squidgames
+  labels:
+    app: grpc-kafka-client
+spec:
+  type: NodePort
+  ports:
+    - port: 3037
+      targetPort: 3037
+      nodePort: 30037
+      protocol: TCP
+  selector:
+    app: grpc-kafka-client
+---
+# DEPLOYMENT PARA GRPC KAFKA SERVER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-kafka-server
+  namespace: squidgames
+  labels:
+    app: grpc-kafka-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-kafka-server
+  template:
+    metadata:
+      labels:
+        app: grpc-kafka-server
+    spec:
+      containers:
+      - name: grpc-kafka-server
+        image: docker.io/oscarllamas6/grpc-kafka-server:v1
+        env:
+          - name: KAFKA_CLIENT_NAME
+            value: ${KAFKA_CLIENT_NAME}
+          - name: KAFKA_SERVER_NAME
+            value: ${KAFKA_SERVER_NAME}
+          - name: KAFKA_CLIENT_HOST
+            value: ${KAFKA_CLIENT_HOST}
+          - name: KAFKA_CLIENT_PORT
+            value: ${KAFKA_CLIENT_PORT}
+          - name: KAFKA_SERVER_HOST
+            value: ${KAFKA_SERVER_HOST}
+          - name: KAFKA_SERVER_PORT
+            value: ${KAFKA_SERVER_PORT}
+          - name: KAFKA_HOST
+            value: ${KAFKA_HOST}
+          - name: KAFKA_PORT
+            value: ${KAFKA_PORT}
+          - name: KAFKA_TOPIC
+            value: ${KAFKA_TOPIC}
+        ports:
+        - containerPort: 6000
+---
+# SERVICIO CLUSTERIP PARA KAFKA SERVER
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-kafka-server-service
+  namespace: squidgames
+  labels:
+    app: grpc-kafka-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6000
+      targetPort: 6000
+      protocol: TCP
+  selector:
+    app: grpc-kafka-server
+---
+# DEPLOYMENT PARA GO KAFKA WORKER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-kafka-worker
+  namespace: squidgames
+  labels:
+    app: go-kafka-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: go-kafka-worker
+  template:
+    metadata:
+      labels:
+        app: go-kafka-worker
+    spec:
+      containers:
+      - name: go-kafka-worker
+        image: docker.io/oscarllamas6/go-kafka-worker:v1
+        env:
+          - name: KAFKA_HOST
+            value: ${KAFKA_HOST}
+          - name: KAFKA_PORT
+            value: ${KAFKA_PORT}
+          - name: KAFKA_TOPIC
+            value: ${KAFKA_TOPIC}
+          - name: REDIS_HOST
+            value: ${REDIS_HOST}
+          - name: REDIS_PORT
+            value: ${REDIS_PORT}
+          - name: REDIS_PASS
+            value: ${REDIS_PASS}
+          - name: MONGO_HOST
+            value: ${MONGO_HOST}
+          - name: MONGO_PORT
+            value: ${MONGO_PORT}
+          - name: MONGO_DB
+            value: ${MONGO_DB}
+          - name: MONGO_COL
+            value: ${MONGO_COL}
+          - name: MONGO_USER
+            value: ${MONGO_USER}
+          - name: MONGO_PASS
+            value: ${MONGO_PASS}

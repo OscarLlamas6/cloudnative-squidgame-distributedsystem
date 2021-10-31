@@ -115,4 +115,7 @@ Please enter numeric choice or text value (must exactly match list item): 2
 # Levantar servicios Pubsub
 >  kubectl apply -f pubsub.yaml
 
+# Levantar servicios RabbitMQ
+>  kubectl apply -f rabbitmq.yaml
+
  ```

@@ -1,4 +1,4 @@
-# DEPLOYMENT PARA GRPC PUBSUB CLIENT
+# DEPLOYMENT PARA GRPC RABBIT CLIENT
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -127,7 +127,7 @@ spec:
         ports:
         - containerPort: 6001
 ---
-# SERVICIO CLUSTERIP PARA PUBSUB CLIENT
+# SERVICIO CLUSTERIP PARA RABBIT SERVER
 apiVersion: v1
 kind: Service
 metadata:
