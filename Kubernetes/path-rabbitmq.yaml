@@ -1,0 +1,287 @@
+# DEPLOYMENT PARA GRPC PUBSUB CLIENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-rabbit-client
+  namespace: squidgames
+  labels:
+    app: grpc-rabbit-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-rabbit-client
+  template:
+    metadata:
+      labels:
+        app: grpc-rabbit-client
+    spec:
+      containers:
+      - name: grpc-rabbit-client
+        image: docker.io/oscarllamas6/grpc-rabbit-client:v1
+        env:
+          - name: RABBIT_CLIENT_NAME
+            value: ${RABBIT_CLIENT_NAME}
+          - name: RABBIT_SERVER_NAME
+            value: ${RABBIT_SERVER_NAME}
+          - name: RABBIT_CLIENT_HOST
+            value: ${RABBIT_CLIENT_HOST}
+          - name: RABBIT_CLIENT_PORT
+            value: ${RABBIT_CLIENT_PORT}
+          - name: RABBIT_SERVER_HOST
+            value: ${RABBIT_SERVER_HOST}
+          - name: RABBIT_SERVER_PORT
+            value: ${RABBIT_SERVER_PORT}
+          - name: RABBITMQ_HOST
+            value: ${RABBITMQ_HOST}
+          - name: RABBITMQ_PORT
+            value: ${RABBITMQ_PORT}
+          - name: RABBITMQ_USER
+            value: ${RABBITMQ_USER}
+          - name: RABBITMQ_PASS
+            value: ${RABBITMQ_PASS}
+          - name: RABBITMQ_QUEUE
+            value: ${RABBITMQ_QUEUE}
+        ports:
+        - containerPort: 3038
+---
+# SERVICIO CLUSTERIP PARA RABBIT CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-rabbit-client-service
+  namespace: squidgames
+  labels:
+    app: grpc-rabbit-client
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3038
+      targetPort: 3038
+      protocol: TCP
+  selector:
+    app: grpc-rabbit-client
+---
+# SERVICIO NODEPORT PARA RABBIT CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-rabbit-client-service2
+  namespace: squidgames
+  labels:
+    app: grpc-rabbit-client
+spec:
+  type: NodePort
+  ports:
+    - port: 3038
+      targetPort: 3038
+      nodePort: 30038
+      protocol: TCP
+  selector:
+    app: grpc-rabbit-client
+---
+# DEPLOYMENT PARA GRPC RABBIT SERVER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-rabbit-server
+  namespace: squidgames
+  labels:
+    app: grpc-rabbit-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-rabbit-server
+  template:
+    metadata:
+      labels:
+        app: grpc-rabbit-server
+    spec:
+      containers:
+      - name: grpc-rabbit-server
+        image: docker.io/oscarllamas6/grpc-rabbit-server:v1
+        env:
+          - name: RABBIT_CLIENT_NAME
+            value: ${RABBIT_CLIENT_NAME}
+          - name: RABBIT_SERVER_NAME
+            value: ${RABBIT_SERVER_NAME}
+          - name: RABBIT_CLIENT_HOST
+            value: ${RABBIT_CLIENT_HOST}
+          - name: RABBIT_CLIENT_PORT
+            value: ${RABBIT_CLIENT_PORT}
+          - name: RABBIT_SERVER_HOST
+            value: ${RABBIT_SERVER_HOST}
+          - name: RABBIT_SERVER_PORT
+            value: ${RABBIT_SERVER_PORT}
+          - name: RABBITMQ_HOST
+            value: ${RABBITMQ_HOST}
+          - name: RABBITMQ_PORT
+            value: ${RABBITMQ_PORT}
+          - name: RABBITMQ_USER
+            value: ${RABBITMQ_USER}
+          - name: RABBITMQ_PASS
+            value: ${RABBITMQ_PASS}
+          - name: RABBITMQ_QUEUE
+            value: ${RABBITMQ_QUEUE}
+        ports:
+        - containerPort: 6001
+---
+# SERVICIO CLUSTERIP PARA PUBSUB CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-rabbit-server-service
+  namespace: squidgames
+  labels:
+    app: grpc-rabbit-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6001
+      targetPort: 6001
+      protocol: TCP
+  selector:
+    app: grpc-rabbit-server
+---
+# DEPLOYMENT PARA GO RABBIT WORKER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-rabbit-worker
+  namespace: squidgames
+  labels:
+    app: go-rabbit-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: go-rabbit-worker
+  template:
+    metadata:
+      labels:
+        app: go-rabbit-worker
+    spec:
+      containers:
+      - name: go-rabbit-worker
+        image: docker.io/oscarllamas6/go-rabbit-worker:v1
+        env:
+          - name: RABBITMQ_HOST
+            value: ${RABBITMQ_HOST}
+          - name: RABBITMQ_PORT
+            value: ${RABBITMQ_PORT}
+          - name: RABBITMQ_USER
+            value: ${RABBITMQ_USER}
+          - name: RABBITMQ_PASS
+            value: ${RABBITMQ_PASS}
+          - name: RABBITMQ_QUEUE
+            value: ${RABBITMQ_QUEUE}
+          - name: REDIS_HOST
+            value: ${REDIS_HOST}
+          - name: REDIS_PORT
+            value: ${REDIS_PORT}
+          - name: REDIS_PASS
+            value: ${REDIS_PASS}
+          - name: MONGO_HOST
+            value: ${MONGO_HOST}
+          - name: MONGO_PORT
+            value: ${MONGO_PORT}
+          - name: MONGO_DB
+            value: ${MONGO_DB}
+          - name: MONGO_COL
+            value: ${MONGO_COL}
+          - name: MONGO_USER
+            value: ${MONGO_USER}
+          - name: MONGO_PASS
+            value: ${MONGO_PASS}
+---
+# DEPLOYMENT PARA RABBITMQ
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-service
+  namespace: squidgames
+  labels:
+    app: rabbitmq-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rabbitmq-service
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-service
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /var/lib/rabbitmq-data/
+        - name: logs
+          hostPath:
+            path: /var/lib/rabbitmq-logs/
+
+      containers:
+      - name: rabbitmq
+        image: docker.io/library/rabbitmq:management-alpine
+        volumeMounts:
+        - name: data
+          mountPath: "/var/lib/rabbitmq-data"
+        - name: logs
+          mountPath: "/var/lib/rabbitmq-log"
+        ports:
+          - containerPort: 5672
+          - containerPort: 15672
+---
+# SERVICIO CLUSTERIP PARA RABBIT CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  namespace: squidgames
+  labels:
+    app: rabbitmq-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: 5672
+      protocol: TCP
+  selector:
+    app: rabbitmq-service
+---      
+# SERVICIO NODEPORT PARA RABBIT CLIENT    
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: squidgames
+  name: rabbitmq-service2
+  labels:
+    app: rabbitmq-service
+spec:
+  type: NodePort
+  ports:
+    - port: 5672
+      targetPort: 5672
+      nodePort: 30030
+      protocol: TCP
+  selector:
+    app: rabbitmq-service
+---
+# SERVICIO NODEPORT PARA RABBIT CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: squidgames
+  name: rabbitmq-service3
+  labels:
+    app: rabbitmq-service
+spec:
+  type: NodePort
+  ports:
+    - port: 15672
+      targetPort: 15672
+      nodePort: 30031
+      protocol: TCP
+  selector:
+    app: rabbitmq-service

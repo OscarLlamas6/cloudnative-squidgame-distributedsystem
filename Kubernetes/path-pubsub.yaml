@@ -64,6 +64,24 @@ spec:
   selector:
     app: grpc-pubsub-client
 ---
+# SERVICIO NODEPORT PARA PUBSUB CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-pubsub-client-service2
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-client
+spec:
+  type: NodePort
+  ports:
+    - port: 3039
+      targetPort: 3039
+      nodePort: 30039
+      protocol: TCP
+  selector:
+    app: grpc-pubsub-client
+---
 # DEPLOYMENT PARA GRPC PUBSUB SERVER
 apiVersion: apps/v1
 kind: Deployment

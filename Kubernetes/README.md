@@ -33,11 +33,9 @@ echo "done"
 > . ./config.sh
 
 # Aplicando un manifiesto de Kubernetes luego de sustituir variables de entorno
->  source .env
 >  envsubst < deployment.yaml | kubectl apply -f -
 
 # Creando un archivo nuevo con el resultado de sustituir las variables de entorno
-> source .env
 > envsubst < deployment.yaml > nuevo_deployment.yaml
 ```
 
@@ -102,6 +100,10 @@ Please enter numeric choice or text value (must exactly match list item): 2
 
 #Creamos reglas de firewall para los puertos
 > gcloud compute firewall-rules create fwrule-kubernetes --allow tcp:30000-32767 
+
+
+# Extra para WSL Windows
+> cp /mnt/c/Users/oscar/.kube/config ~/.kube
 
  ```
 
