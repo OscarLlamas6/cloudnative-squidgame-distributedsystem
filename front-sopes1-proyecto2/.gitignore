@@ -7,6 +7,8 @@
 
 # testing
 /coverage
+.env
+docker-commands.txt
 
 # production
 /build
