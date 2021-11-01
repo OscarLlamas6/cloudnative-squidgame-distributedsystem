@@ -15,3 +15,5 @@ spec:
   #  weight: 333m
   - service: error-injector-srv
     weight: 1m
+
+# No conozco el nombre de cada servicio pero deberia ir ahi y le asigne el peso de  33% cada uno y 1% error
