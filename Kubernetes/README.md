@@ -118,4 +118,7 @@ Please enter numeric choice or text value (must exactly match list item): 2
 # Levantar servicios RabbitMQ
 >  kubectl apply -f rabbitmq.yaml
 
+# Levantar servicios Kafka
+>  kubectl apply -f kafka.yaml
+
  ```

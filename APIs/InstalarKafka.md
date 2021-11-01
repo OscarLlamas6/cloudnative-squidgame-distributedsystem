@@ -1,10 +1,11 @@
-# Local Kafka instance
+# Apache Kafka
 
-- Guia para instalar Kafka localmente.
+- Guia para instalar Kafka.
 
 # Contenido
 - [Windows](#windows) 
 - [Linux](#linux)    
+- [Strimzi](#strimzi)
 
 # Windows
 
@@ -229,3 +230,6 @@ squidgames
 
 # --from-beginning = Leer todos los mensajes existentes. incluso aquellos que ya consumimos antes.
 ```
+
+# Strimzi
+
