@@ -1,4 +1,6 @@
 require('dotenv').config()
-const redis = require('./redisDb')
+
+require('./redisDb')
+require('./mongoDb')
 
 require('./socket')
