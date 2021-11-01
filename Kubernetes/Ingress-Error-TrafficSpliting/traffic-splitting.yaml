@@ -1,0 +1,17 @@
+# Traffic Split
+apiVersion: split.smi-spec.io/v1alpha1
+kind: TrafficSplit
+metadata:
+  name: service-split
+  namespace: squidgame
+spec:
+  # service: services-kafka
+  backends:
+  #- service: services-kafka
+  #  weight: 333m
+  #- service: services-rabbitmq
+  #  weight: 333m
+  #- service: services-pubsub
+  #  weight: 333m
+  - service: error-injector-srv
+    weight: 1m
