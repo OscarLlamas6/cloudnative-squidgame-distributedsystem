@@ -1,0 +1,64 @@
+# Config Map Error-Injector
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: error-injector
+  namespace: squidgame
+data:
+ nginx.conf: |-
+    events {}
+    http {
+      server {
+        listen 8080;      # Puerto De Prueba
+          location / {
+            return 500 "erro controller\n";
+          }
+      }
+    }
+
+---
+
+# Deployment Error-Injector
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-injector
+  namespace: squidgame
+  labels:
+    app: error-injector
+spec:
+  selector:
+    matchLabels:
+      app: error-injector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: error-injector
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: error-injector
+---
+
+# Service Error-Injector
+apiVersion: v1
+kind: Service
+metadata:
+  name: error-injector-srv
+  namespace: squidgame
+spec:
+  ports:
+  - port: 8080              # Puerto De Prueba
+    protocol: TCP
+    targetPort: 8080     # Puerto De Prueba
+  selector:
+    app: error-injector
