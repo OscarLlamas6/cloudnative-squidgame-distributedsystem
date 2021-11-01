@@ -1,7 +1,13 @@
 # Kubernetes: USAC Squid Games - Distributed Cloud Native System
 
 
-## Variables de entorno
+# Contenido
+- [Variables de entorno en archivos YAML](#variables-de-entorno-en-archivos-yaml)
+- [Setear gcloud y kubectl](#setear-gcloud-y-kubectl) 
+- [Apache Kafka con Strimzi](#apache-kafka-con-strimzi)
+
+
+# Variables de entorno en archivos YAML
 
 -   Crear un archivo variables.conf con las variables de entorno, ejemplo:
 
@@ -39,11 +45,7 @@ echo "done"
 > envsubst < deployment.yaml > nuevo_deployment.yaml
 ```
 
-# Contenido
-- [Windows](#windows) 
-- [Linux](#linux)    
-
-# Windows
+# Setear gcloud y kubectl
 
  - Instalar gcloud, correr el siguiente comando en Windows Powerll y ejecutar instalador
 
@@ -121,4 +123,98 @@ Please enter numeric choice or text value (must exactly match list item): 2
 # Levantar servicios Kafka
 >  kubectl apply -f kafka.yaml
 
+# Levantar todos loser servicios
+> kubectl delete -f .\pubsub.yaml -f .\kafka.yaml -f .\rabbitmq.yaml -f .\Ingress-Error-TrafficSpliting\config-error.yaml -f .\Ingress-Error-TrafficSpliting\ingress.yaml -f .\Ingress-Error-TrafficSpliting\traffic-splitting.yaml
+
  ```
+
+ # Apache Kafka con Strimzi
+
+- Instalar y setear Kafa con Strimzi
+```bash
+# Instalando Strimzi. Cambiar <namespace> por el nombre correcto.
+> kubectl apply -f 'https://strimzi.io/install/latest?namespace=<namespace>'
+
+# Chequear que el pod de Strimzi este corriendo. Cambiar <namespace> por el nombre correcto.
+> kubectl get pods -n <namespace>
+```
+
+- Definiendo YAMLs para crear cluster, topics o cualquier otro recurso de Kafka deseado.
+
+```yaml
+# Ejemplo de un cluster simple
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: squidgames-cluster
+  namespace: squidgames
+spec:
+  kafka:
+    version: 3.0.0
+    replicas: 2
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 2
+      transaction.state.log.replication.factor: 2
+      transaction.state.log.min.isr: 2
+      log.message.format.version: '3.0'
+      inter.broker.protocol.version: '3.0'
+    storage:
+      type: ephemeral
+  zookeeper:
+    replicas: 2
+    storage:
+      type: ephemeral
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+
+```
+
+```yaml
+# Ejemplo de un Topic en Kafka
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: squidgames
+  namespace: squidgames
+  labels:
+    strimzi.io/cluster: squidgames-cluster
+spec:
+  partitions: 10
+  replicas: 2
+  config:
+    retention.ms: 604800000
+    segment.bytes: 1073741824
+```
+
+Para más ejemplos e información de recurso de Kafka visitar [https://operatorhub.io/operator/strimzi-kafka-operator](https://operatorhub.io/operator/strimzi-kafka-operator=)
+
+
+- Aplicar manifiestos YAMLs para crear objetos.
+
+```bash
+# Creando cluster definido en archivo strimzi.yaml
+> kubectl apply -f strimzi.yaml
+
+# Listar pods con watcher
+> kubectl get pods -n squidgames -w
+
+# Revisar servicios de Kafka en K8s
+> kubectl get kafka -n squidgames
+
+# Obtener info detallada de servicos de Kafka
+> kubectl get kafka -n squidgames -o yaml
+
+# Listar topics de Kafka 
+> kubectl get kafkatopic -n squidgames
+
+```

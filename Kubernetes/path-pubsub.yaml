@@ -13,6 +13,8 @@ spec:
       app: grpc-pubsub-client
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: grpc-pubsub-client
     spec:

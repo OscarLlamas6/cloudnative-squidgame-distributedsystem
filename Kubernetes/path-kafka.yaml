@@ -13,6 +13,8 @@ spec:
       app: grpc-kafka-client
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: grpc-kafka-client
     spec:
@@ -52,7 +54,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 3037
+    - port: 3039
       targetPort: 3037
       protocol: TCP
   selector:

@@ -3,17 +3,16 @@ apiVersion: split.smi-spec.io/v1alpha1
 kind: TrafficSplit
 metadata:
   name: service-split
-  namespace: squidgame
+  namespace: squidgames
 spec:
-  # service: services-kafka
+  service: grpc-pubsub-client-service
   backends:
-  #- service: services-kafka
-  #  weight: 333m
-  #- service: services-rabbitmq
-  #  weight: 333m
-  #- service: services-pubsub
-  #  weight: 333m
-  - service: error-injector-srv
-    weight: 1m
+  - service: grpc-pubsub-client-service
+    weight: 300m
+  - service: grpc-rabbit-client-service
+    weight: 300m
+  - service: grpc-kafka-client-service
+    weight: 300m
+  - service: error-injector-service
+    weight: 100m
 
-# No conozco el nombre de cada servicio pero deberia ir ahi y le asigne el peso de  33% cada uno y 1% error

@@ -3,15 +3,15 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: error-injector
-  namespace: squidgame
+  namespace: squidgames
 data:
  nginx.conf: |-
     events {}
     http {
       server {
-        listen 8080;      # Puerto De Prueba
+        listen 8080;
           location / {
-            return 500 "erro controller\n";
+            return 500;
           }
       }
     }
@@ -23,7 +23,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: error-injector
-  namespace: squidgame
+  namespace: squidgames
   labels:
     app: error-injector
 spec:
@@ -53,12 +53,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: error-injector-srv
-  namespace: squidgame
+  name: error-injector-service
+  namespace: squidgames
 spec:
+  type: ClusterIP
   ports:
-  - port: 8080              # Puerto De Prueba
+  - port: 3039 
     protocol: TCP
-    targetPort: 8080     # Puerto De Prueba
+    targetPort: 8080
   selector:
     app: error-injector
