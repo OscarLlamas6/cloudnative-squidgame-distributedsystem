@@ -16,6 +16,6 @@ io.on('connection', (socket) => {
 })
 
 server.listen(process.env.NODE_API_PORT || 8080)
-console.log('Server on port', 8080)
+console.log('Server on port', process.env.NODE_API_PORT || 8080)
 
 module.exports = io

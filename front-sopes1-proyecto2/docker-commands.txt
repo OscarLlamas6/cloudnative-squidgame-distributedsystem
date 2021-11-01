@@ -1,0 +1,7 @@
+docker build -t react-ui ./
+
+docker run -d --name reactui -p 80:80 react-ui
+
+docker stop reactui
+
+docker rm reactui
