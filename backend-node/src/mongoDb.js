@@ -2,33 +2,42 @@
 
 const URI = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`
 
-var MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
-function connection() {
-    try {
-        let connection = MongoClient.connect(URI).then(() => {
-            console.log('Mongo db is connected')
-        }).catch(error => {
-            console.log(error)
+const client = new MongoClient(URI)
+
+const dataMongo = {}
+
+dataMongo.allData = () => {
+
+    return new Promise((resolve, reject) => {
+        client.connect(function () {
+            const db = client.db('SQUIDGAMES')
+            const collection = db.collection('LOGS')
+            collection.find({}).toArray(function (err, result) {
+                resolve(result);
+            })
         })
 
-        return connection
-    } catch (error) {
-        return null
-    }
+    })
+
 }
 
-connection()
 
-// export const allTweets = async () => {
+
+
+
+module.exports = dataMongo
+
+// export const allTweets =  () => {
 //     //.db("SOPES1").collection("TWEET")
-//     const tweets = await collection()
-//     const allTweets = await tweets.find({}).toArray()
+//     const tweets =  collection()
+//     const allTweets =  tweets.find({}).toArray()
 //     //console.log(allTweets)
 //     return allTweets
 // }
 
-// //allTweets()
+//allTweets()
 
 // export const countTweets = async () => {
 //     const tweets = await collection()

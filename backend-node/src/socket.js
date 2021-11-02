@@ -1,4 +1,6 @@
 const app = require('./app')
+const redisData = require('./redisDb')
+const mongoData = require('./mongoDb')
 
 const http = require('http')
 const server = http.createServer(app)
@@ -7,10 +9,20 @@ const io = require('socket.io')(server, { cors: { origin: '*' } })
 
 io.on('connection', (socket) => {
 
-    console.log('conectado')
-
     socket.on('conectado', () => {
-        console.log('nueva conexion', socket.id)
+
+        redisData.getAllGames().then(res => {
+            io.emit('redis', { redis: res })
+        })
+
+        mongoData.allData().then(res => {
+            io.emit('mongo', { mongo: res })
+        })
+
+        redisData.top10Jugadores().then(res => {
+            io.emit('top', { top: res })
+        })
+
     })
 
 })

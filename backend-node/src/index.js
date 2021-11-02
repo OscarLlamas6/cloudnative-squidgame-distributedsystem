@@ -1,6 +1,8 @@
 require('dotenv').config()
 
-require('./redisDb')
-require('./mongoDb')
-
 require('./socket')
+
+require('./ListenerDb')
+// require('./mongoDb')
+// require('./redisDb')
+

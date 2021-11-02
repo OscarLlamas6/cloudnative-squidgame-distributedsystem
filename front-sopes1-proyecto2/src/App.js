@@ -1,43 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
-import { useEffect } from 'react'
-import socket from './libs/socket'
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from 'react'
+
+import NavBar from './components/NavBar'
+
+import { Games } from './pages/Games'
+import { Last10Games } from './pages/Last10Games'
+import { Top10Players } from './pages/Top10Players'
+import { MongoTransactions } from './pages/MongoTransactions'
+import { PlayerDetail } from './pages/PlayerDetail'
 
 function App() {
 
     useEffect(() => {
-
-        socket.emit('conectado', (data) => {
-
-        })
-
+        
     }, [])
 
-    useEffect(() => {
-
-        socket.on('test', (data) => {
-            console.log(data)
-        })
-
-    })
-
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <Router>
+            <NavBar />
+            <Switch>
+                <Route exact path="/">
+                    <Games />
+                </Route>
+                <Route exact path="/last-games">
+                    <Last10Games />
+                </Route>
+                <Route exact path="/top-players">
+                    <Top10Players />
+                </Route>
+                <Route exact path="/mongo-transactions">
+                    <MongoTransactions />
+                </Route>
+                <Route exact path="/player-detail/:id">
+                    <PlayerDetail />
+                </Route>
+            </Switch>
+        </Router>
     );
 }
 
