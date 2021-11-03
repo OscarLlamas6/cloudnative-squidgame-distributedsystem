@@ -23,6 +23,14 @@ io.on('connection', (socket) => {
             io.emit('top', { top: res })
         })
 
+        mongoData.topGames().then(res => {
+            io.emit('topGames', { topGames: res })
+        })
+
+        mongoData.topServicios().then(res => {
+            io.emit('topServicios', { topServicios: res })
+        })
+
     })
 
 })

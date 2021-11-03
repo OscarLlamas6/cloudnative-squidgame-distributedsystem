@@ -23,7 +23,81 @@ dataMongo.allData = () => {
 
 }
 
+const groupBy = (key, arr) => arr
+    .reduce((cache, item) => {
+        const property = item[key]
+        if (property in cache) {
+            return {
+                ...cache, [property]: cache[property].concat(item)
+            }
+        }
+        return { ...cache, [property]: [item] }
+    },
+        {}
+    )
 
+
+dataMongo.topGames = () => {
+
+    let juegos = []
+    let numeroJuegos = []
+
+    return new Promise((resolve, reject) => {
+        client.connect(function () {
+            const db = client.db('SQUIDGAMES')
+            const collection = db.collection('LOGS')
+            collection.find({}).toArray(function (err, result) {
+                let games = groupBy('gamename', result)
+
+                for (const key in games) {
+                    const element = games[key];
+
+                    juegos.push(key)
+
+                    numeroJuegos.push(element.length)
+                }
+                resolve({ juegos, numeroJuegos });
+            })
+        })
+
+    })
+
+}
+
+dataMongo.topServicios = () => {
+
+    let servicios = []
+    let numeroServicios = []
+
+    return new Promise((resolve, reject) => {
+        client.connect(function () {
+            const db = client.db('SQUIDGAMES')
+            const collection = db.collection('LOGS')
+            collection.find({}).toArray(function (err, result) {
+                let games = groupBy('service', result)
+
+                for (const key in games) {
+                    const element = games[key];
+
+                    servicios.push(key)
+
+                    numeroServicios.push(element.length)
+                }
+                resolve({ servicios, numeroServicios });
+            })
+        })
+
+    })
+
+}
+
+// dataMongo.topGames().then(res => {
+//     console.log(res)
+// })
+
+// dataMongo.topServicios().then(res => {
+//     console.log(res)
+// })
 
 
 

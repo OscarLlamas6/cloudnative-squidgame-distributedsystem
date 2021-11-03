@@ -34,6 +34,14 @@ client.on('message', function (channel, key) {
         io.emit('top', { top: res })
     })
 
+    dataMongo.topGames().then(res => {
+        io.emit('topGames', { topGames: res })
+    })
+
+    dataMongo.topServicios().then(res => {
+        io.emit('topServicios', { topServicios: res })
+    })
+
 });
 
 //client.set("key", "value", redis.print);
