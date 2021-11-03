@@ -1,0 +1,17 @@
+# Container Kill
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: container-kill
+  namespace: chaos-testing
+spec:
+  action: container-kill
+  mode: one
+  containerName: 'Nombre'     # Aqui Iria El Nombre Del Contenedor
+  selector:
+    namespaces:
+      - squidgames
+    labelSelectors:
+      "app": "Nombre"      # Nombre De La App
+  scheduler:
+    cron: '@every 30s'
