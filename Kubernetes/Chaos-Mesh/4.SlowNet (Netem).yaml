@@ -1,0 +1,19 @@
+# Slow Net (Netem)
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay
+  namespace: chaos-testing
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+      - squidgames
+  delay:
+    latency: "90ms"
+    correlation: "25"
+    jitter: "90ms"
+  duration: "2.5m"
+  scheduler:
+    cron: "@every 15s"
