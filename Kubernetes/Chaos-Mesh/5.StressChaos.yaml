@@ -1,0 +1,17 @@
+# Stress Chaos  
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: burn-cpu
+  namespace: chaos-testing
+spec:
+  mode: one
+  selector:
+    namespaces:
+      - squidgame
+  stressors:
+    cpu:
+      workers: 1
+  duration: '30s'
+  scheduler:
+    cron: '@every 2m'
