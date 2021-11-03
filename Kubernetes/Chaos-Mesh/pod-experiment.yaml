@@ -1,0 +1,23 @@
+kind: Schedule
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  name: experiment1
+  namespace: chaos-testing
+#  annotations:
+#    experiment.chaos-mesh.org/pause: 'false'
+spec:
+  schedule: '@every 15s'
+  startingDeadlineSeconds: null
+  concurrencyPolicy: Forbid
+  historyLimit: 1
+  type: PodChaos
+  podChaos:
+    selector:
+      namespaces:
+        - squidgames
+      labelSelectors:
+        app: grpc-pubsub-client
+    mode: one
+    action: pod-kill
+    duration: 2m
+    gracePeriod: 0

@@ -231,7 +231,7 @@ squidgames
 # --from-beginning = Leer todos los mensajes existentes. incluso aquellos que ya consumimos antes.
 ```
 
-# Apache Kafka con Strimzi
+# Strimzi
 
 - Instalar y setear Kafa con Strimzi
 ```bash
