@@ -137,9 +137,9 @@ func sendRequest(numero int, game *helpers.SingleGame) {
 	} else {
 		fmt.Print(string(getColor("yellow")), "Rungame #", numero+1)
 		fmt.Print(string(getColor("purple")), "Status:")
-		fmt.Print(string(getColor("red")), "500 ")
-		fmt.Print(string(getColor("purple")), "Response:")
-		fmt.Println(string(getColor("red")), "Error")
+		fmt.Print(string(getColor("red")), " 500 ")
+		fmt.Print(string(getColor("purple")), " Response:")
+		fmt.Println(string(getColor("red")), " Error ")
 		Failed++
 	}
 }

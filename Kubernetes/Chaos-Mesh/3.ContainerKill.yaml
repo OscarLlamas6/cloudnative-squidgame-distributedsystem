@@ -7,11 +7,11 @@ metadata:
 spec:
   action: container-kill
   mode: one
-  containerName: 'Nombre'     # Aqui Iria El Nombre Del Contenedor
+  containerName: grpc-pubsub-client
   selector:
     namespaces:
       - squidgames
     labelSelectors:
-      "app": "Nombre"      # Nombre De La App
-  scheduler:
-    cron: '@every 30s'
+      "app": grpc-pubsub-client
+  duration: '30s'
+  scheduler: '@every 10s'

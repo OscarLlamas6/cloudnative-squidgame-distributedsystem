@@ -14,6 +14,5 @@ spec:
     latency: "90ms"
     correlation: "25"
     jitter: "90ms"
-  duration: "2.5m"
-  scheduler:
-    cron: "@every 15s"
+  duration: "1m"
+  scheduler: "@every 15s"

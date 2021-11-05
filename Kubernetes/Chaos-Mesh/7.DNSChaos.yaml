@@ -1,0 +1,15 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: DNSChaos
+metadata:
+  name: dns-chaos-example
+  namespace: chaos-testing
+spec:
+  action: random
+  mode: all
+  patterns:
+    - grpc-rabbit-server-service
+    - grpc-pubsub-server-service
+    - grpc-kafka-server-service
+  selector:
+    namespaces:
+      - squidgames

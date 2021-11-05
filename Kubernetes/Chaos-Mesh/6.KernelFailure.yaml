@@ -8,7 +8,7 @@ spec:
   mode: one
   selector:
     namespaces:
-      - squidgames
+      - squidgamess
   failKernRequest:
     callchain:
       - funcname: '__x64_sys_mount'

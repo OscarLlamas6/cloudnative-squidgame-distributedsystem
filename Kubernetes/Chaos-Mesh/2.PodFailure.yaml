@@ -7,12 +7,10 @@ metadata:
 spec:
   action: pod-failure
   mode: one
-  value: ''
   selector:
     namespaces:
       - squidgames
     labelSelectors:
-      "app": "Nombre"  # Nombre De La App
+      "app": grpc-pubsub-client
   duration: '30s'
-  scheduler:
-    cron: '@every 1m'
+  scheduler: '@every 10s'
