@@ -126,10 +126,10 @@ Please enter numeric choice or text value (must exactly match list item): 2
 >  kubectl apply -f kafka.yaml
 
 # Levantar todos los servicios
-> kubectl apply -f .\pubsub.yaml -f .\kafka.yaml -f .\rabbitmq.yaml -f .\Ingress-Error-TrafficSpliting\config-error.yaml -f .\Ingress-Error-TrafficSpliting\ingress.yaml -f .\Ingress-Error-TrafficSpliting\traffic-splitting.yaml
+> kubectl apply -f .\pubsub.yaml -f .\kafka.yaml -f .\rabbitmq.yaml -f .\dashboard.yaml -f .\Ingress-Error-TrafficSpliting\config-error.yaml -f .\Ingress-Error-TrafficSpliting\ingress.yaml -f .\Ingress-Error-TrafficSpliting\traffic-splitting.yaml
 
 # Borrar todos los servicios
-> kubectl delete -f .\pubsub.yaml -f .\kafka.yaml -f .\rabbitmq.yaml -f .\Ingress-Error-TrafficSpliting\config-error.yaml -f .\Ingress-Error-TrafficSpliting\ingress.yaml -f .\Ingress-Error-TrafficSpliting\traffic-splitting.yaml
+> kubectl delete -f .\pubsub.yaml -f .\kafka.yaml -f .\rabbitmq.yaml -f .\dashboard.yaml -f .\Ingress-Error-TrafficSpliting\config-error.yaml -f .\Ingress-Error-TrafficSpliting\ingress.yaml -f .\Ingress-Error-TrafficSpliting\traffic-splitting.yaml
 
  ```
 

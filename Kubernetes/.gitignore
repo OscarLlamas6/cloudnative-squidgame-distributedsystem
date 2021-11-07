@@ -7,3 +7,4 @@ test.yaml
 rabbitmq.yaml
 kafka.yaml
 ingress.yaml
+dashboard.yaml

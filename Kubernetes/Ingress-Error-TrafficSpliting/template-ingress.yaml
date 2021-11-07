@@ -19,4 +19,11 @@ spec:
           service: 
             name: grpc-pubsub-client-service 
             port: 
-              number: 3039 
+              number: 3039
+      - path: /dashboard
+        pathType: Prefix 
+        backend: 
+          service: 
+            name: squidgames-ui-service
+            port: 
+              number: 80 
