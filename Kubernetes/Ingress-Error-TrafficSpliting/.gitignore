@@ -8,3 +8,4 @@ rabbitmq.yaml
 kafka.yaml
 ingress.yaml
 ingress2.yaml
+ingress-completo.yaml
