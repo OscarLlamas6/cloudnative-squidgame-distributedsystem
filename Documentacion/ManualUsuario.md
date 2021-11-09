@@ -27,6 +27,13 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
     - [Traffic Generator](#traffic-generator)
     - [Dashboard](#dashboard)
 
+# Demo
+
+![Demo](https://i.ibb.co/7KDR3DN/sopesgif.gif)
+
+---
+
+
 ## Descripción
 
 Se solicita construir un sistema genérico de arquitectura distribuida que muestre estadísticas en tiempo real utilizando Kubernetes y service mesh como Linkerd y otras tecnologías Cloud Native. En la última parte se utilizará una service mesh para dividir el tráfico. Adicionalmente, se añadirá Chaos Mesh para implementar Chaos Engineering. Este proyecto se aplicará a la visualización de los resultados de juegos implementados por los estudiantes.
@@ -92,7 +99,7 @@ Se solicita construir un sistema genérico de arquitectura distribuida que muest
 <div style="text-align: center">  </div>
 &nbsp;
 
-### Una vez finalizada las peticiones, se mostrará un resumen de las peticiones ejecutadas.
+### Una vez finalizadas las peticiones, se mostrará un resumen de las peticiones ejecutadas.
 <p align="center" >
   <img src="https://i.ibb.co/j6K0zbV/image.png" width="882" height="556" />
 </p>
@@ -101,7 +108,7 @@ Se solicita construir un sistema genérico de arquitectura distribuida que muest
 
 ## Dashboard
 
-- Para ingresar al Dashbord y visualizar los distintos reporte, entrar a squidgames.IP-INGRESS-CONTROLLER.nip.io/
+- Para ingresar al Dashbord y visualizar los distintos reportes, entrar a squidgames.IP-INGRESS-CONTROLLER.nip.io/
 <p align="center" >
   <img src="https://i.ibb.co/CbnNSZf/image.png" width="839" height="1017" />
 </p>

@@ -2,7 +2,13 @@
 
 Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, etc.
 
-## Diagrama general del sistema
+# Demo
+
+![Demo](https://i.ibb.co/7KDR3DN/sopesgif.gif)
+
+---
+
+# Diagrama general del sistema
 
 ![Diagrama](https://i.ibb.co/g63JWMj/SOPES1-PROYECTO2.png)
 

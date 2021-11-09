@@ -4,7 +4,7 @@ metadata:
   name: dns-chaos-example
   namespace: chaos-testing
 spec:
-  action: random
+  action: error
   mode: all
   patterns:
     - grpc-rabbit-server-service

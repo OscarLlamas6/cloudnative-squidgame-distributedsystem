@@ -7,11 +7,12 @@ metadata:
 spec:
   service: grpc-pubsub-client-service
   backends:
+  - service: grpc-pubsub-client-service
+    weight: 300m
+  - service: grpc-rabbit-client-service
+    weight: 300m
   - service: grpc-kafka-client-service
-    weight: 500m
-  # - service: grpc-rabbit-client-service
-  #   weight: 300m
-  # - service: grpc-kafka-client-service
-  #   weight: 300m
+    weight: 300m
   - service: error-injector-service
-    weight: 500m
+    weight: 100m
+
