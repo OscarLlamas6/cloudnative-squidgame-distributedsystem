@@ -2,7 +2,7 @@
 
 ## USAC SQUID GAMES | Cloud-Native Distributed System
 
-Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, etc.
+Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, Sockets io, etc.
 
 ## Información General
 - Curso: Sistemas Operativos 1

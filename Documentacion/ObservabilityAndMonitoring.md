@@ -2,7 +2,7 @@
 
 ## USAC SQUID GAMES | Cloud-Native Distributed System
 
-Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, etc.
+Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, Sockets io, etc.
 
 # Demo
 
@@ -205,3 +205,35 @@ hayas descubierto en las pruebas de faulty traffic.</b></h2> </div>
 <div style="text-align: justify"><h3> Al utilizar el servicio de mensajeria RabbitMQ en el cluster, se llegó a usar un 18.49% del CPU y un 33.33% de la memoria. Como podemos observar en la gráfica, a diferencia de PubSub esta vez el Worker (Consumidor de RabbitMQ) consumió más recursos que el Publisher (Servidor gRPC).</h3></div><br>
 
 ![Pattern](https://i.ibb.co/PY5gSz4/recursos-Rabbit.jpg)
+
+---
+
+# Pregunta 5
+
+<div style="text-align: justify"><h2><b> ¿Cuáles son las ventajas y desventajas de cada servicio de
+mensajería? </b></h2> </div>
+&nbsp;
+
+| Servicio | Ventajas | Desventajas
+|:----:|:----:|:----:|
+| Google PubSub| Está respaldado por Google, cuentas de servico y escalabidadlidad de recursos fáciles de gestionar. Se puede integrar con otros servicios de Google Cloud Platform | No es una solución tan veloz como otras alternativas. Se está sujeto a regiones disponibles de Google.
+| Apache Kafka | Sistema escalable horizontalmente y tolerante a fallos. Referencia en la industria, lo usan las empresas más grandes del mundo. Garantías de entrega de mensajes exactly-once (exactamente una vez). | Kafka no es una tecnología que esté diseñada para manejar mensajes muy grandes (+ 1MB). De los 3 servicios implementados, Kafka fue el que tuvo mayor latencia (casi 2 segundos en algunos picos).
+| RabbitMQ | En este proyecto fue el sistema de mensajeria implementado con menor latencia. Permite desacoplamiento, es asincrónico, y realiza recorte de picos. Mejor rendimiento y alta concurrencia. | Al estar desarrollado en Erlang es difícil de entender el código fuente. Su rendimiendo disminuye considerablemente en trabajos pesados.
+
+---
+
+# Pregunta 6
+
+<div style="text-align: justify"><h2><b> ¿Cuál es el mejor sistema de mensajería? </b></h2> </div>
+
+<div style="text-align: justify"><h3> Pese a que se redujo la taza de peticiones por segundo al momento de trabajar todos los servicios de mensajería al mismo tiempo; RabbitMQ fue la solucion con la menor latencia, además de un consumo de recursos e indice de concurrencia aceptables.</h3></div><br>
+
+---
+
+# Pregunta 7 
+
+<div style="text-align: justify"><h2><b> ¿Cuál de las dos bases de datos se desempeña mejor y por
+qué? (Redis vs MongoDB)</b></h2> </div>
+
+<div style="text-align: justify"><h3> Si hablamos de desempeño, cada base de datos fue utilizada para propósitos distintos, por lo que cada una se desempeñó en base a la funcionalidad que se le dió. Si hablamos de la Base de Datos más rápida, sin duda fue Redis al ser una base de datos in-memory, MongoDB es una base de datos on-disk. Por otro lado Redis consume más recursos. MongoDB almacena la información en documentos y Redis como clave-valor. En este proyecto, Redis al actuar como memoria cache almacenando metadatos, tuvo un mejor rendimiento, sin embargo se pudo notar que a la hora de buscar escalabilidad y almacenamiento más general, MongoDB puede ser la mejor solución. </h3></div><br>
+
