@@ -8,11 +8,9 @@ spec:
   service: grpc-pubsub-client-service
   backends:
   - service: grpc-pubsub-client-service
-    weight: 300m
+    weight: 333m
   - service: grpc-rabbit-client-service
-    weight: 300m
+    weight: 334m
   - service: grpc-kafka-client-service
-    weight: 300m
-  - service: error-injector-service
-    weight: 100m
+    weight: 333m
 

@@ -56,10 +56,10 @@ echo "done"
 
 & $env:Temp\GoogleCloudSDKInstaller.exe
 
-#Correr comando para iniciar configuracion
+# Correr comando para iniciar configuración
 > gcloud init
 
-#Se mostrara un mensaje como el siguiente, darle "Y" para aceptar y loggearnos en gcp
+#Se mostraraá un mensaje como el siguiente, darle "Y" para aceptar y loggearnos en GCP
 
 Network diagnostic detects and fixes local network connection issues.
 Checking network connection...done.
@@ -68,7 +68,7 @@ Network diagnostic passed (1/1 checks passed).
 
 You must log in to continue. Would you like to log in (Y/n)? Y
 
-# Se mostraran una lista de proyectos, escogemos el proyecto o creamos uno nuevo.
+# Se mostrará una lista de proyectos, escogemos el proyecto o creamos uno nuevo.
 
 You are logged in as: [<your-account-email>].
 
@@ -79,7 +79,7 @@ Pick cloud project to use:
  [4] Create a new project
 Please enter numeric choice or text value (must exactly match list item): 2
 
-#Configuramos una region y zona predeterminada, ejemplo us-central1-a
+# Configuramos una región y zona predeterminada, ejemplo us-central1-a
 
 > gcloud config set compute/zone us-central1-a
 
@@ -95,14 +95,14 @@ Please enter numeric choice or text value (must exactly match list item): 2
 
 > gcloud container clusters create squidgames --num-nodes=3 --tags=allin,allout --machine-type=n1-standard-2 --no-enable-network-policy
 
-#Recuperando credenciales para Kubectl
+# Recuperando credenciales para Kubectl
 > gcloud container clusters get-credentials k8s-demo --zone=us-central1-c
 
-#Permisos necesarios para el ingress controlers
+# Permisos necesarios para el ingress controlers
 > kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value account)  
 
 
-#Creamos reglas de firewall para los puertos
+# Creamos reglas de firewall para los puertos
 > gcloud compute firewall-rules create fwrule-kubernetes --allow tcp:30000-32767 
 
 
@@ -141,12 +141,12 @@ Please enter numeric choice or text value (must exactly match list item): 2
 
  # Apache Kafka con Strimzi
 
-- Instalar y setear Kafa con Strimzi
+- Instalar y setear Kafka con Strimzi
 ```bash
 # Instalando Strimzi. Cambiar <namespace> por el nombre correcto.
 > kubectl apply -f 'https://strimzi.io/install/latest?namespace=<namespace>'
 
-# Chequear que el pod de Strimzi este corriendo. Cambiar <namespace> por el nombre correcto.
+# Chequear que el pod de Strimzi esté corriendo. Cambiar <namespace> por el nombre correcto.
 > kubectl get pods -n <namespace>
 ```
 
@@ -207,7 +207,7 @@ spec:
     segment.bytes: 1073741824
 ```
 
-Para más ejemplos e información de recurso de Kafka visitar [https://operatorhub.io/operator/strimzi-kafka-operator](https://operatorhub.io/operator/strimzi-kafka-operator=)
+Para más ejemplos e información de recurso de Kafka visitar [https://operatorhub.io/operator/strimzi-kafka-operator](https://operatorhub.io/operator/strimzi-kafka-operator)
 
 
 - Aplicar manifiestos YAMLs para crear objetos.

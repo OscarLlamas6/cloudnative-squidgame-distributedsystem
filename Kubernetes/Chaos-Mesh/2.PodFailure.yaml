@@ -1,16 +1,23 @@
 # Pod Failure
+kind: Schedule
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
 metadata:
-  name: pod-failure
+  name: squidgames-pod-failure
   namespace: chaos-testing
+  #  annotations:
+  #  experiment.chaos-mesh.org/pause: 'false'
 spec:
-  action: pod-failure
-  mode: one
-  selector:
-    namespaces:
-      - squidgames
-    labelSelectors:
-      "app": grpc-pubsub-client
-  duration: '30s'
-  scheduler: '@every 10s'
+  schedule: '@every 10s'
+  concurrencyPolicy: Forbid
+  historyLimit: 1
+  type: PodChaos
+  podChaos:
+    selector:
+      namespaces:
+        - squidgames
+      labelSelectors:
+        app: grpc-pubsub-client
+    mode: one
+    action: pod-failure
+    duration: 1m
+    gracePeriod: 0

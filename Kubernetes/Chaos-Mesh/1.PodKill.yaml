@@ -1,16 +1,23 @@
 # Pod Kill
+kind: Schedule
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
 metadata:
-  name: pod-kill
+  name: squidgames-pod-kill
   namespace: chaos-testing
+  #  annotations:
+#    experiment.chaos-mesh.org/pause: 'false'
 spec:
-  action: pod-kill
-  mode: one
-  selector:
-    namespaces:
-      - squidgames
-    labelSelectors:
-      "app": "Nombre"   # Nombre De La App
-  scheduler:
-    cron: '@every 1m'
+  schedule: '@every 10s'
+  concurrencyPolicy: Forbid
+  historyLimit: 1
+  type: PodChaos
+  podChaos:
+    selector:
+      namespaces:
+        - squidgames
+      labelSelectors:
+        app: grpc-pubsub-client
+    mode: one
+    action: pod-kill
+    duration: 1m
+    gracePeriod: 0

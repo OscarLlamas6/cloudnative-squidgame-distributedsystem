@@ -7,7 +7,6 @@ metadata:
 #    experiment.chaos-mesh.org/pause: 'false'
 spec:
   schedule: '@every 15s'
-  startingDeadlineSeconds: null
   concurrencyPolicy: Forbid
   historyLimit: 1
   type: PodChaos
