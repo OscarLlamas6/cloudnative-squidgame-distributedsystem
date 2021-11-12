@@ -13,7 +13,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
 # Pregunta 1
 
 <div style="text-align: justify"><h2><b> ¿Cómo funcionan las métricas de oro, cómo se puede interpretar las 7 pruebas de faulty traffic, usando como base los gráficos y métricas que muestra el tablero de Linkerd Grafana? </b></h2> </div>
-&nbsp;
 
 ## Prueba 1: Google PubSub Queue con 100% del tráfico
 
@@ -142,7 +141,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
 
 <div style="text-align: justify"><h2><b> Menciona al menos 3 patrones de comportamiento que
 hayas descubierto en las pruebas de faulty traffic.</b></h2> </div>
-&nbsp;
 
 ## - Patrón de comportamiento 1
 
@@ -182,7 +180,6 @@ hayas descubierto en las pruebas de faulty traffic.</b></h2> </div>
 # Pregunta 4
 
 <div style="text-align: justify"><h2><b> ¿Cuántos recursos utiliza cada sistema de mensajería? </b></h2> </div>
-&nbsp;
 
 # Google Pub/Sub
 
@@ -212,7 +209,6 @@ hayas descubierto en las pruebas de faulty traffic.</b></h2> </div>
 
 <div style="text-align: justify"><h2><b> ¿Cuáles son las ventajas y desventajas de cada servicio de
 mensajería? </b></h2> </div>
-&nbsp;
 
 | Servicio | Ventajas | Desventajas
 |:----:|:----:|:----:|

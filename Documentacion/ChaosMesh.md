@@ -21,7 +21,7 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
 
 # Pregunta 1
 
-<div style="text-align: justify"><h2><b>¿Cómo se reflejan en los dashboards de Linkerd los experimentos de Chaos Mesh?</b></h2></div><br>
+<div style="text-align: justify"><h2><b>¿Cómo se reflejan en los dashboards de Linkerd los experimentos de Chaos Mesh?</b></h2></div>
 
 ## Experimento 1: Pod Kill
 <br>
@@ -228,6 +228,6 @@ spec:
 
 # Pregunta 3
 
-<div style="text-align: justify"><h2><b>¿Cuál de todos los experimentos es el más dañino?</b></h2></div><br>
+<div style="text-align: justify"><h2><b>¿Cuál de todos los experimentos es el más dañino?</b></h2></div>
 
 <div style="text-align: justify"><h3> De los 5 experimentos realizados, PodFailure y DNSChaos parecieron ser los más dañinos, a diferencia de Pod Kill el cual reiniciaba el Pod instantáneamente, Pod Failure e DNS Chaos inhabilitan los servicios en su totalidad, uno arrojando error por falla de Pod y el otro por erro de DNS. Por otra parte Slow Network a pesar de afectar la latencia, permite que el sistema siga funcionando correctamente. </h3></div>

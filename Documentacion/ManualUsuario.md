@@ -38,8 +38,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
 
 Se solicita construir un sistema genérico de arquitectura distribuida que muestre estadísticas en tiempo real utilizando Kubernetes y service mesh como Linkerd y otras tecnologías Cloud Native. En la última parte se utilizará una service mesh para dividir el tráfico. Adicionalmente, se añadirá Chaos Mesh para implementar Chaos Engineering. Este proyecto se aplicará a la visualización de los resultados de juegos implementados por los estudiantes.
 
-
-&nbsp;
 ---
 
 ## Diagrama general del sistema
