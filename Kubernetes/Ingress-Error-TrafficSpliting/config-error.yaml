@@ -1,0 +1,67 @@
+# Config Map Error-Injector
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: error-injector
+  namespace: squidgames
+data:
+ nginx.conf: |-
+    events {}
+    http {
+      server {
+        listen 8080;
+          location / {
+            return 500;
+          }
+      }
+    }
+
+---
+
+# Deployment Error-Injector
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-injector
+  namespace: squidgames
+  labels:
+    app: error-injector
+spec:
+  selector:
+    matchLabels:
+      app: error-injector
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: error-injector
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: error-injector
+---
+
+# Service Error-Injector
+apiVersion: v1
+kind: Service
+metadata:
+  name: error-injector-service
+  namespace: squidgames
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3039 
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: error-injector

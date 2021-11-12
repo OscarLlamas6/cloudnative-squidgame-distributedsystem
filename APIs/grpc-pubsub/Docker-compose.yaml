@@ -1,0 +1,41 @@
+version: "3.5"
+
+services:
+
+  grpc-pubsub-client:
+    container_name: grpc-pubsub-client
+    image: oscarllamas6/grpc-pubsub-client:v1
+    env_file:
+      - ./.env
+    ports:
+      - "3039:3039"
+    restart: unless-stopped
+    depends_on:
+      - grpc-pubsub-server
+    networks:
+      - service_network
+
+  grpc-pubsub-server:
+    container_name: grpc-pubsub-server
+    image: oscarllamas6/grpc-pubsub-server:v1
+    env_file:
+      - ./.env
+    ports:
+      - "6002:6002"
+    restart: unless-stopped
+    networks:
+      - service_network
+
+  go-pubsub-worker:
+    container_name: go-pubsub-worker
+    image: oscarllamas6/go-pubsub-worker:v1
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    networks:
+      - service_network
+
+networks:
+       
+  service_network:
+    driver: bridge

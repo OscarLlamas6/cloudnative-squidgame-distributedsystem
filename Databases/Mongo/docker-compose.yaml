@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - "ok8:/data/db"
+      - "./users_init.sh:/docker-entrypoint-initdb.d/users_init.sh:ro"
+    networks:
+      - network1
+    environment: 
+        MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
+        MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+    env_file: 
+      - .env
+
+networks:
+   network1:
+    driver: "bridge"
+volumes: 
+    ok8:

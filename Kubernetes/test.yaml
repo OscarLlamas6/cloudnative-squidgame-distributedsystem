@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rabbitmq-pod
+  namespace: squidgames
+  labels:
+    app: rabbitmq
+spec:
+  volumes:
+    - name:  data
+      hostPath:
+        path:  /var/lib/rabbitmq-data/
+    - name:  logs
+      hostPath:
+        path:  /var/lib/rabbitmq-logs/
+
+  containers:
+  - name: rabbitmq
+    image: docker.io/library/rabbitmq:management-alpine
+    volumeMounts:
+      - name:  data
+        mountPath:  "/var/lib/rabbitmq-data"
+      - name:  logs
+        mountPath:  "/var/lib/rabbitmq-log"
+    ports:
+      - containerPort: 5672
+      - containerPort: 15672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: squidgames
+  name: rabbitmq-service
+  labels:
+    app: rabbitmq
+spec:
+  type: NodePort
+  ports:
+    - port: 5672
+      targetPort: 5672
+      nodePort: 30030
+      protocol: TCP
+  selector:
+    app: rabbitmq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: squidgames
+  name: rabbitmq-service2
+  labels:
+    app: rabbitmq
+spec:
+  type: NodePort
+  ports:
+    - port: 15672
+      targetPort: 15672
+      nodePort: 30031
+      protocol: TCP
+  selector:
+    app: rabbitmq

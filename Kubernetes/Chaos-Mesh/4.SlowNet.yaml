@@ -1,0 +1,24 @@
+# Slow Net (Netem)
+kind: Schedule
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  name: squidgames-networks-delay
+  namespace: chaos-testing
+  #  annotations:
+  #  experiment.chaos-mesh.org/pause: 'false'
+spec:
+  schedule: '@every 10s'
+  concurrencyPolicy: Forbid
+  historyLimit: 1
+  type: NetworkChaos
+  networkChaos:
+    selector:
+      namespaces:
+        - squidgames
+      labelSelectors:
+        app: grpc-pubsub-client
+    mode: one
+    action: delay
+    delay:
+      latency: '10ms'
+    duration: "30s"

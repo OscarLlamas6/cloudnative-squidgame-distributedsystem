@@ -1,0 +1,10 @@
+.env
+.env.develop
+/.env
+pubsub.yaml
+variables.conf
+test.yaml
+rabbitmq.yaml
+kafka.yaml
+ingress.yaml
+dashboard.yaml

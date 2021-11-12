@@ -1,0 +1,13 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: squidgames
+  namespace: squidgames
+  labels:
+    strimzi.io/cluster: squidgames-cluster
+spec:
+  partitions: 10
+  replicas: 2
+  config:
+    retention.ms: 604800000
+    segment.bytes: 1073741824

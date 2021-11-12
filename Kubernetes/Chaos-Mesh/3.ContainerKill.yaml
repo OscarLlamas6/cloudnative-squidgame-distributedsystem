@@ -1,0 +1,24 @@
+# Container Kill
+kind: Schedule
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  name: squidgames-container-kill
+  namespace: chaos-testing
+  #  annotations:
+  #  experiment.chaos-mesh.org/pause: 'false'
+spec:
+  schedule: '@every 10s'
+  concurrencyPolicy: Forbid
+  historyLimit: 1
+  type: PodChaos
+  podChaos:
+    selector:
+      namespaces:
+        - squidgames
+      labelSelectors:
+        app: grpc-pubsub-client
+    mode: one
+    action: container-kill
+    containerNames: ['grpc-pubsub-client']
+    duration: 1m
+    gracePeriod: 0

@@ -1,0 +1,17 @@
+# Traffic Split
+apiVersion: split.smi-spec.io/v1alpha1
+kind: TrafficSplit
+metadata:
+  name: service-split
+  namespace: squidgames
+spec:
+  service: grpc-pubsub-client-service
+  backends:
+  - service: grpc-rabbit-client-service
+    weight: 500m
+  # - service: grpc-rabbit-client-service
+  #   weight: 300m
+  # - service: grpc-kafka-client-service
+  #   weight: 300m
+  - service: error-injector-service
+    weight: 500m

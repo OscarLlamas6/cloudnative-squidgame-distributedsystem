@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+
+  squidgames-ui:
+    container_name: squidgames-ui
+    image: oscarllamas6/squidgames-ui:v4
+    ports:
+      - "80:80"
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - squidgames-ui-backend
+    networks:
+      - service_network
+
+  squidgames-ui-backend:
+    container_name: squidgames-ui-backend
+    image: oscarllamas6/squidgames-ui-backend:v1
+    env_file:
+      - ./.env
+    environment:
+      - NODE_API_PORT=4000
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    networks:
+      - service_network
+
+networks:   
+  service_network:
+    driver: bridge

@@ -1,0 +1,5 @@
+.env
+pubsub.privatekey.json
+./.docker-conf
+.docker-conf
+./.docker-conf/*

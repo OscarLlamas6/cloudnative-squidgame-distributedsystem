@@ -1,0 +1,205 @@
+# DEPLOYMENT PARA GRPC PUBSUB CLIENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-pubsub-client
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-pubsub-client
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: grpc-pubsub-client
+    spec:
+      containers:
+      - name: grpc-pubsub-client
+        image: docker.io/oscarllamas6/grpc-pubsub-client:v1
+        env:
+          - name: PUBSUB_CLIENT_NAME
+            value: ${PUBSUB_CLIENT_NAME}
+          - name: PUBSUB_SERVER_NAME
+            value: ${PUBSUB_SERVER_NAME}
+          - name: PUBSUB_CLIENT_HOST
+            value: ${PUBSUB_CLIENT_HOST}
+          - name: PUBSUB_CLIENT_PORT
+            value: ${PUBSUB_CLIENT_PORT}
+          - name: PUBSUB_SERVER_HOST
+            value: ${PUBSUB_SERVER_HOST}
+          - name: PUBSUB_SERVER_PORT
+            value: ${PUBSUB_SERVER_PORT}
+          - name: TOPIC_NAME
+            value: ${TOPIC_NAME}
+          - name: PUBSUB_KEY_PATH
+            value: ${PUBSUB_KEY_PATH}
+          - name: SUB_NAME
+            value: ${SUB_NAME}
+          - name: PUBSUB_PROJECT
+            value: ${PUBSUB_PROJECT}
+          - name: GOLANG_TOPIC
+            value: ${GOLANG_TOPIC}
+          - name: GOLANG_SUB
+            value: ${GOLANG_SUB}
+        ports:
+        - containerPort: 3039
+---
+# SERVICIO CLUSTERIP PARA PUBSUB CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-pubsub-client-service
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-client
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3039
+      targetPort: 3039
+      protocol: TCP
+  selector:
+    app: grpc-pubsub-client
+---
+# SERVICIO NODEPORT PARA PUBSUB CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-pubsub-client-service2
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-client
+spec:
+  type: NodePort
+  ports:
+    - port: 3039
+      targetPort: 3039
+      nodePort: 30039
+      protocol: TCP
+  selector:
+    app: grpc-pubsub-client
+---
+# DEPLOYMENT PARA GRPC PUBSUB SERVER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-pubsub-server
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grpc-pubsub-server
+  template:
+    metadata:
+      labels:
+        app: grpc-pubsub-server
+    spec:
+      containers:
+      - name: grpc-pubsub-server
+        image: docker.io/oscarllamas6/grpc-pubsub-server:v1
+        env:
+          - name: PUBSUB_CLIENT_NAME
+            value: ${PUBSUB_CLIENT_NAME}
+          - name: PUBSUB_SERVER_NAME
+            value: ${PUBSUB_SERVER_NAME}
+          - name: PUBSUB_CLIENT_HOST
+            value: ${PUBSUB_CLIENT_HOST}
+          - name: PUBSUB_CLIENT_PORT
+            value: ${PUBSUB_CLIENT_PORT}
+          - name: PUBSUB_SERVER_HOST
+            value: ${PUBSUB_SERVER_HOST}
+          - name: PUBSUB_SERVER_PORT
+            value: ${PUBSUB_SERVER_PORT}
+          - name: TOPIC_NAME
+            value: ${TOPIC_NAME}
+          - name: PUBSUB_KEY_PATH
+            value: ${PUBSUB_KEY_PATH}
+          - name: SUB_NAME
+            value: ${SUB_NAME}
+          - name: PUBSUB_PROJECT
+            value: ${PUBSUB_PROJECT}
+          - name: GOLANG_TOPIC
+            value: ${GOLANG_TOPIC}
+          - name: GOLANG_SUB
+            value: ${GOLANG_SUB}
+        ports:
+        - containerPort: 6002
+---
+# SERVICIO CLUSTERIP PARA PUBSUB CLIENT
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-pubsub-server-service
+  namespace: squidgames
+  labels:
+    app: grpc-pubsub-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6002
+      targetPort: 6002
+      protocol: TCP
+  selector:
+    app: grpc-pubsub-server
+---
+# DEPLOYMENT PARA GO PUBSUB WORKER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-pubsub-worker
+  namespace: squidgames
+  labels:
+    app: go-pubsub-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: go-pubsub-worker
+  template:
+    metadata:
+      labels:
+        app: go-pubsub-worker
+    spec:
+      containers:
+      - name: go-pubsub-worker
+        image: docker.io/oscarllamas6/go-pubsub-worker:v1
+        env:
+          - name: TOPIC_NAME
+            value: ${TOPIC_NAME}
+          - name: PUBSUB_KEY_PATH
+            value: ${PUBSUB_KEY_PATH}
+          - name: SUB_NAME
+            value: ${SUB_NAME}
+          - name: PUBSUB_PROJECT
+            value: ${PUBSUB_PROJECT}
+          - name: GOLANG_TOPIC
+            value: ${GOLANG_TOPIC}
+          - name: GOLANG_SUB
+            value: ${GOLANG_SUB}
+          - name: REDIS_HOST
+            value: ${REDIS_HOST}
+          - name: REDIS_PORT
+            value: ${REDIS_PORT}
+          - name: REDIS_PASS
+            value: ${REDIS_PASS}
+          - name: MONGO_HOST
+            value: ${MONGO_HOST}
+          - name: MONGO_PORT
+            value: ${MONGO_PORT}
+          - name: MONGO_DB
+            value: ${MONGO_DB}
+          - name: MONGO_COL
+            value: ${MONGO_COL}
+          - name: MONGO_USER
+            value: ${MONGO_USER}
+          - name: MONGO_PASS
+            value: ${MONGO_PASS}
+          

@@ -1,0 +1,24 @@
+syntax="proto3";
+
+option go_package = "github.com/OscarLlamas6/grpc-helpers/protos/squidgame";
+
+message Game {
+  string gamenumber=1;
+  string gamename=2;
+  int64 players = 3;
+  int64 rungames = 4;
+  int64 concurrence = 5;
+  int64 timeout = 6;
+  int64 request = 7;
+}
+
+message PlayRequest {
+  Game game=1;
+}
+message PlayResponse {
+  string message=1;
+}
+service SquidGameService {
+  // Unary
+  rpc Play(PlayRequest) returns (PlayResponse){};
+}

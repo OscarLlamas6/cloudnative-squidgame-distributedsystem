@@ -1,0 +1,4 @@
+node_modules
+.env
+docker-commands.txt
+package-lock.json

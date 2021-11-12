@@ -1,0 +1,11 @@
+.env
+.env.develop
+/.env
+pubsub.yaml
+variables.conf
+test.yaml
+rabbitmq.yaml
+kafka.yaml
+ingress.yaml
+ingress2.yaml
+ingress-completo.yaml
