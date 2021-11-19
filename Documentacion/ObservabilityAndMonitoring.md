@@ -4,10 +4,6 @@
 
 Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, NoSQL DB, Sockets io, etc.
 
-# Demo
-
-![Demo](https://i.ibb.co/7KDR3DN/sopesgif.gif)
-
 ---
 
 # Pregunta 1
