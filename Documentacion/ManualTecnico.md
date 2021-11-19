@@ -21,7 +21,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
 
 # Contenido 
 
-- [Demo](#demo) 
 - [Descripción general](#descripción-general)
 - [Diagrama del sistema](#diagrama-general-del-sistema) 
 - [Herramientas utilizadas](#herramientas-utilizadas)    
@@ -40,12 +39,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
     - [Linkerd](#linkerd)
     - [Chaos Mesh](#chaos-mesh)
     - [Referencias](#referencias)
----
-
-# Demo
-
-![Demo](https://i.ibb.co/7KDR3DN/sopesgif.gif)
-
 ---
 
 

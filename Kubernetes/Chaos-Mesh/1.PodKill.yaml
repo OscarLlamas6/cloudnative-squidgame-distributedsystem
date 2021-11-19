@@ -2,7 +2,7 @@
 kind: Schedule
 apiVersion: chaos-mesh.org/v1alpha1
 metadata:
-  name: squidgames-pod-kill
+  name: squidgames-pod-kill2
   namespace: chaos-testing
   #  annotations:
 #    experiment.chaos-mesh.org/pause: 'false'
@@ -19,5 +19,5 @@ spec:
         app: grpc-pubsub-client
     mode: one
     action: pod-kill
-    duration: 1m
+    duration: 2m
     gracePeriod: 0

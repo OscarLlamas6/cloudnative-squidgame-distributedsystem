@@ -27,10 +27,6 @@ Sistema distribuido usando Kubernetes, gRPC, PubSub, Kafka, RabbitMQ, Golang, No
     - [Traffic Generator](#traffic-generator)
     - [Dashboard](#dashboard)
 
-# Demo
-
-![Demo](https://i.ibb.co/7KDR3DN/sopesgif.gif)
-
 ---
 
 
