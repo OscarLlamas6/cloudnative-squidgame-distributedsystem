@@ -93,7 +93,7 @@ Please enter numeric choice or text value (must exactly match list item): 2
 
 # Creamos cluster kubernetes
 
-> gcloud container clusters create squidgames --num-nodes=3 --tags=allin,allout --machine-type=n1-standard-2 --no-enable-network-policy
+> gcloud container clusters create squidgames --num-nodes=3 --no-enable-ip-alias
 
 # Recuperando credenciales para Kubectl
 > gcloud container clusters get-credentials k8s-demo --zone=us-central1-c
