@@ -270,7 +270,7 @@ Para más ejemplos e información de recurso de Kafka visitar [https://operatorh
 # Instalando Linkerd
 > curl -fsL https://run.linkerd.io/install | sh
 > nano ~/.bashrc <- export PATH=$PATH:/home/YOUR_USER/.linkerd2/bin
-> linkerd check
+> linkerd check --pre
 > linkerd install | kubectl apply -f -
 > linkerd check
 > linkerd viz install | kubectl apply -f -
